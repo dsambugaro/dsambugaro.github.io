@@ -99,7 +99,7 @@
                     <li class="tab"><a href="#trabalhos">
                         <div class="row">
                             <div class="col right-align">
-                                <i class="material-icons">code</i>
+                                <i class="material-icons hide-on-small-only">code</i>
                             </div>
                             <div class="col left-align">
                                 Trabalhos
@@ -199,19 +199,16 @@
                             </div>
                             <div class="card-action">
                                 <div class="col s6 m6 l6">
-                                    <a href="https://github.com/dsambugaro" style="text-decoration:none;" target="_blank">
-                                        <span style="text-transform: capitalize; font: 70% Roboto,sans-serif; color:#0783B6;">
-                                            <img src="imgs/github.png" width="20" height="20" alt="Visualizar perfil de Danilo Sambugaro no GitHub" style="vertical-align:middle;" border="0">
-                                            &nbsp;GitHub
-                                        </span>
+                                    <a class="github-button" href="https://github.com/dsambugaro" data-style="mega" aria-label="Follow @dsambugaro on GitHub">
+                                        GitHub
                                     </a>
                                 </div>
                                 <div class="col s6 m6 l6">
-                                    <a href="https://br.linkedin.com/pub/danilo-sambugaro-de-carlo/116/736/832" style="text-decoration:none;" target="_blank">
-                                        <span style="text-transform: capitalize; font: 70% Roboto,sans-serif; color:#0783B6;">
-                                            <img src="imgs/linkedin.png" width="25" height="18" alt="Visualizar perfil de Danilo Sambugaro no LinkedIn" style="vertical-align:middle;" border="0">
-                                            &nbsp;Linkedin
-                                        </span>
+                                    <!-- <a href="https://br.linkedin.com/pub/danilo-sambugaro-de-carlo/116/736/832">
+                                        <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_profile_bluetxt_80x15_pt_BR.png?locale="width="80" height="15" border="0" alt="Visualizar perfil de Danilo Sambugaro de Carlo no LinkedIn">
+                                    </a> -->
+                                    <a href="https://br.linkedin.com/pub/danilo-sambugaro-de-carlo/116/736/832">
+                                        <img src="imgs/Logo-2C-21px-TM.png"border="0" alt="Visualizar perfil de Danilo Sambugaro de Carlo no LinkedIn">
                                     </a>
                                 </div>
                                 <br>
@@ -252,10 +249,10 @@
             </div>
         </footer>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
-
-        <script type="text/javascript">
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="materialize/js/materialize.min.js"></script>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script>
             $(".button-collapse").sideNav();
             $(document).ready(function(){
                 $('.parallax').parallax();
