@@ -65,6 +65,9 @@
             .navbar-fixed nav {
                 top:0;
             }
+            .navbar-fixed {
+                z-index: 999;
+            }
 
         </style>
 
@@ -96,13 +99,14 @@
                                 <i class="fa fa-facebook-official" aria-hidden="true" style="font-size:28px"></i>
                             </a></li>
                         </ul>
-                        <ul class="side-nav" id="mobile">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true" style="font-size:22px"></i>Facebook</a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram" aria-hidden="true" style="font-size:22px"></i>Instagram</a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-google-plus-official" aria-hidden="true" style="font-size:22px"></i>Google+</a></li>
-                        </ul>
+
                     </div>
                 </nav>
+                <ul class="side-nav" id="mobile">
+                    <li><a href="#" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true" style="font-size:22px"></i>Facebook</a></li>
+                    <li><a href="#" target="_blank"><i class="fa fa-instagram" aria-hidden="true" style="font-size:22px"></i>Instagram</a></li>
+                    <li><a href="#" target="_blank"><i class="fa fa-google-plus-official" aria-hidden="true" style="font-size:22px"></i>Google+</a></li>
+                </ul>
             </div>
         </div>
     </header>
@@ -136,7 +140,6 @@
                                     <i class="fa fa-stack fa-external-link" aria-hidden="true" style="font-size:70%; width:auto; vertical-align:bottom;"></i></a>
                             </em> para alguns projetos pessoais.
                         </p>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                     </div>
                     <div class="col s12 m12 l4">
                         <div class="card">
@@ -172,9 +175,11 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="divider"></div>
+                <br>
                 <div class="row">
-                    <div id="habilidades" class="col s12 m12 l12" style="margin-top:2%;" alt="Habilidades e conheicementos do Danilo Sambugaro">
+                    <div id="habilidades" class="col s12 m12 l12" alt="Habilidades e conheicementos do Danilo Sambugaro">
                         <h4>Habilidades</h4>
                         <div class="row">
                             <div class="col s12 m4 l4">
@@ -182,7 +187,7 @@
                                     <div class="card-image waves-effect waves-block waves-light" style="padding:15px">
                                         <img class="activator" src="imgs/python.svg">
                                     </div>
-                                    <div class="card-content flow-text blue white-text">
+                                    <div class="card-content flow-text blue darken-2 white-text">
                                         <span class="card-title activator">Python<i class="material-icons right">more_vert</i></span>
                                     </div>
                                     <div class="card-reveal" >
