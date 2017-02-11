@@ -33,10 +33,10 @@ if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Ph
             $logoNav.removeClass('center');
         }
         if ((offset) <= $(window).scrollTop()) {
-            $navbar.addClass('fixar');
+            $navbar.addClass('navbar-fixed');
 
         } else {
-            $navbar.removeClass('fixar');
+            $navbar.removeClass('navbar-fixed');
             if (200 >= $(window).scrollTop()) {
                 $logoNav.addClass('hide-on-large-only');
                 $logoNav.addClass('center');
