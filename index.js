@@ -44,5 +44,5 @@ if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Ph
         }
     });
 } else {
-    $navbar.addClass('fixar');
+    $navbar.addClass('navbar-fixed');
 }
