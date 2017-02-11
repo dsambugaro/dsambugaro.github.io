@@ -20,11 +20,13 @@ campoIdade.innerHTML = idade(1996, 02, 17)+' anos';
 
 // *****************************************************************************
 
+
+var offset = $('#navbar').offset().top;
+var $navbar = $('#navbar');
+var $logoNav = $('#logoNav');
+var teste = document.getElementById('logoNav');
+
 if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))) {
-    var offset = $('#navbar').offset().top;
-    var $navbar = $('#navbar');
-    var $logoNav = $('#logoNav');
-    var teste = document.getElementById('logoNav');
     $(document).on('scroll', function () {
         if ( 200 <= $(window).scrollTop()) {
             $logoNav.removeClass('hide-on-large-only');
@@ -41,4 +43,6 @@ if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Ph
             }
         }
     });
+} else {
+    $navbar.addClass('fixar');
 }
