@@ -50,3 +50,9 @@
     .navbar-fixed {
         z-index: 999;
     }
+
+    .side-nav li > a > i,
+    .side-nav li > a > [class^="mdi-"], .side-nav li > a > [class*="mdi-"],
+    .side-nav li > a > i.material-icons {
+      margin: 0 0 0 0;
+    }
