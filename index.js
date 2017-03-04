@@ -1,4 +1,5 @@
 // ******************************CALCULAR IDADE*********************************
+
 var campoIdade = document.querySelector('#idade');
 
 function idade(ano_aniversario, mes_aniversario, dia_aniversario) {
@@ -19,7 +20,7 @@ function idade(ano_aniversario, mes_aniversario, dia_aniversario) {
 campoIdade.innerHTML = idade(1996, 02, 17)+' anos';
 
 // *****************************************************************************
-
+// *******************************FIXAR NAVBAR**********************************
 
 var offset = $('#navbar').offset().top;
 var $navbar = $('#navbar');
@@ -28,21 +29,20 @@ var teste = document.getElementById('logoNav');
 
 if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))) {
     $(document).on('scroll', function () {
-        if ( 200 <= $(window).scrollTop()) {
-            $logoNav.removeClass('hide-on-large-only');
-            $logoNav.removeClass('center');
-        }
         if ((offset) <= $(window).scrollTop()) {
             $navbar.addClass('navbar-fixed');
 
         } else {
             $navbar.removeClass('navbar-fixed');
-            if (200 >= $(window).scrollTop()) {
-                $logoNav.addClass('hide-on-large-only');
-                $logoNav.addClass('center');
-            }
+
         }
     });
 } else {
     $navbar.addClass('navbar-fixed');
+}
+// *****************************************************************************
+// ****************************FUNÇÕES DIVERSAS*********************************
+//esconder navbar na versao mobile
+function closeMenu(){
+    $('.button-collapse').sideNav('hide');
 }

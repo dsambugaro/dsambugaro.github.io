@@ -10,9 +10,11 @@
 
         <link rel="icon" href="imgs/favicon.png">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="style.css">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script src="lib/jQuery_ancora.js"></script>
 
         <title>Danilo Sambugaro</title>
 
@@ -28,11 +30,11 @@
             </div>
             <div class="parallax valign"><img class="responsive-img" src="imgs/ponte.png"></div>
         </div>
-        <div style="height:70px">
+
             <div id="navbar" style="width:100%">
                 <nav style="background-color: #1976D2;">
                     <div class="nav-wrapper container">
-                        <!-- <a href="#" id="logoNav" class="brand-logo center hide-on-large-only">Danilo Sambugaro</a> -->
+                        <a href="#" id="logoNav" class="brand-logo center hide-on-large-only">Danilo Sambugaro</a>
 
                         <ul class="left hide-on-med-and-down">
                             <li><a href="#sobre">SOBRE</a></li>
@@ -54,20 +56,19 @@
 
                     </div>
                     <ul class="side-nav center" id="mobile">
-                        <li><a href="#sobre">SOBRE</a></li>
-                        <li><a href="#habilidades">HABILIDADES</a></li>
-                        <li><a href="#formacao">FORMAÇÃO</a></li>
+                        <li><a href="#sobre" onclick="closeMenu()">SOBRE</a></li>
+                        <li><a href="#habilidades" onclick="closeMenu()">HABILIDADES</a></li>
+                        <li><a href="#formacao" onclick="closeMenu()">FORMAÇÃO</a></li>
                         <li class="divider"></li>
                         <ul class="center" style="display: inline-flex;">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true" style="font-size:22px"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram" aria-hidden="true" style="font-size:22px"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true" style="font-size:22px"></i></a></li>
+                            <li><a href="https://www.facebook.com/dsambugaro" target="_blank" onclick="closeMenu()"><i class="fa fa-facebook-official" aria-hidden="true" style="font-size:22px"></i></a></li>
+                            <li><a href="https://www.instagram.com/dsambugaro/" target="_blank" onclick="closeMenu()"><i class="fa fa-instagram" aria-hidden="true" style="font-size:22px"></i></a></li>
+                            <li><a href="https://twitter.com/sambugaroo" target="_blank" onclick="closeMenu()"><i class="fa fa-twitter-square" aria-hidden="true" style="font-size:22px"></i></a></li>
                         </ul>
                     </ul>
                 </nav>
-
             </div>
-        </div>
+
     </header>
     <body>
         <main style="padding-top:2%;">
@@ -138,7 +139,7 @@
                 <br>
                 <div id="#habilidades" class="row">
                     <div id="habilidades" class="col s12 m12 l12" alt="Habilidades e conhecimentos que o programador Danilo Sambugaro possui">
-                        <h4 >Habilidades</h4>
+                        <h4>Habilidades</h4>
                         <div class="row">
 
                             <div class="col s12 m4 l4">
@@ -164,7 +165,7 @@
                 <div class="divider"></div>
                 <div id="#formacao" class="row">
                     <div id="formacao" class="col s12 m12 l12" alt="Habilidades e conhecimentos que o programador Danilo Sambugaro possui">
-                        <h4 >Formação</h4>
+                        <h4>Formação</h4>
                         <div class="hide-on-med-and-down">
                             <!-- <img class="circle z-depth-2" width="auto" height="150" src="imgs/utf.png"> -->
 
@@ -175,7 +176,6 @@
 
 
                     </div>
-                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                 </div>
                 <div class="divider"></div>
                 <div class="row">
@@ -212,7 +212,7 @@
         </footer>
 
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="materialize/js/materialize.min.js"></script>
+        <script src="lib/materialize/js/materialize.min.js"></script>
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <script src="index.js"></script>
         <script>
