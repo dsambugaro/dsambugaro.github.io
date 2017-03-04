@@ -42,7 +42,7 @@ if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Ph
 }
 // *****************************************************************************
 // ****************************FUNÇÕES DIVERSAS*********************************
-//esconder navbar na versao mobile
+//esconder side na versao mobile
 function closeMenu(){
     $('.button-collapse').sideNav('hide');
 }
