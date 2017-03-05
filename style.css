@@ -57,6 +57,6 @@ strong {
     margin: 0 0 0 0;
 }
 
-#menu, #mobile {
+.caps {
     text-transform: uppercase;
 }
