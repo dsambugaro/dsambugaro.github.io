@@ -1,7 +1,7 @@
 # Site settings
-title: Project Pages
+title: Blog
 description: "An Integrated Scientific Blogging Template"
-url: "https://projectpages.github.io"
+url: "https://dsambugaro.github.io"
 
 
 
@@ -13,7 +13,7 @@ headercolor: "#FFFFFF"
 logo: /project-pages/img/logos/Project-Pages-New-Logo-Inverted.png
 
 # Tertiary Parameters
-github_username:  projectpages
+github_username:  dsambugaro
 project_repository: project-pages
 disqus_shortname: project-pages
 g-analytics: UA-75881392-1
@@ -41,7 +41,7 @@ defaults:
 # Prose Settings
 prose:
   ignore: ['feed.xml', '/stl', '/ply', '/js', '/plugin', '/lib', '/projectors', '_layouts', '/_includes', 'Gruntfile.js', 'package.json', 'proselinks.jsonp', 'ppanchor.matin', '.gitignore', '/search', '/css', '/img', 'favicon.png','_data/*.json','LICENSES.md','README.md','colorscheme.scss','members.html','mentions.html','index.html']
-  siteurl: 'http://projectpages.github.io/project-pages/'
+  siteurl: 'https://dsambugaro.github.io/project-pages/'
   ispp: true
   media: 'img'
   metadata:
@@ -60,7 +60,7 @@ prose:
         field:
           element: "text"
           label: "Project"
-          value: ""           
+          value: ""
     _posts:
       - name: "subtitle"
         field:
@@ -77,12 +77,8 @@ prose:
               value: "post"
             - name: "Slide"
               value: "slide"
-            - name: "Projector"
-              value: "projector"
             - name: "Notebook"
               value: "notebook"
-            - name: "Ply Surface"
-              value: "plysurface"
       - name: "title"
         field:
           element: "text"
@@ -102,11 +98,11 @@ prose:
         field:
           element: "text"
           label: "Project"
-          value: ""    
+          value: ""
       - name: "horizontal"
         field:
           element: "hidden"
-          value: </section></section><section markdown="1" data-background="http://projectpages.github.io/project-pages/img/slidebackground.png"><section markdown="1">
+          value: </section></section><section markdown="1" data-background="https://dsambugaro.github.io/project-pages/img/slidebackground.png"><section markdown="1">
       - name: "vertical"
         field:
           element: "hidden"
@@ -114,7 +110,7 @@ prose:
       - name: "slideinit"
         field:
           element: "hidden"
-          value: <section markdown="1" data-background="http://projectpages.github.io/project-pages/img/slidebackground.png"><section markdown="1">
+          value: <section markdown="1" data-background="https://dsambugaro.github.io/project-pages/img/slidebackground.png"><section markdown="1">
       - name: "theme"
         field:
           element: "select"
@@ -126,13 +122,13 @@ prose:
             - name: "Blood"
               value: "blood"
             - name: "Moon"
-              value: "moon"          
+              value: "moon"
             - name: "Night"
               value: "night"
             - name: "Sky"
               value: "sky"
             - name: "Solarized"
-              value: "solarized"             
+              value: "solarized"
       - name: "trans"
         field:
           element: "select"
@@ -144,13 +140,13 @@ prose:
             - name: "Page"
               value: "page"
             - name: "Concave"
-              value: "concave"          
+              value: "concave"
             - name: "Linear"
               value: "linear"
             - name: "Fade"
               value: "fade"
             - name: "None"
-              value: "none"             
+              value: "none"
       - name: "visualworkflow"
         field:
           element: "checkbox"
