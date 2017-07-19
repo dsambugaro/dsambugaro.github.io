@@ -1,0 +1,75 @@
+{
+  
+
+    "tecnologia-2017-06-06-post-3": {
+      "title": "Post#3",
+      "content"	 : "Table of Contents  Table of Contents  Basic Functionality          Headers        Header 1          Header 2                  Header 3                    Styling      Lists      Links      Images      Code      MathJax      Tables      Quotes      Rule      HTML        Advanced Functionality          Color and Alignment      Basic FunctionalityHeadersHeader 1Header 2Header 3StylingBoldItalicsBold and ItalicsLists      Item 1        Item 2        Unordered Item                  Sub Item 1                  Bold Sub Sub Ordered Item                    LinksIn-LineI’m a reference-style link 1I’m a reference-style link 1ImagesHold your pointer clicked over the image to expand the view.CodeInline code.import numpy as npdef hello_world():    print(&#39;Hello World!&#39;&#39;)MathJaxUse MathJax for Math.Tables            Here      is      a      row!                  is      Left      Center      Right              a      cut      it      A              column      short      B      C      Quotes  War does not decide who is right, only who is left.RuleHTMLCan write the whole post or sections in HTML for very specific needs. [For the advanced user or the code savvy.]Advanced FunctionalityHead over to the documentation page for tutorials on some basic html formatting and some extensions you can use for cool stuff like interactive 3D visualizations.Color and AlignmentThis text is centered.This is a red text with blue and green inline text.",
+      "url": "/blog/tecnologia/2017/06/06/Post-3/",
+      "author": "Danilo Sambugaro",
+      "categories": "Tecnologia"
+    }
+    ,
+  
+
+    "tecnologia-2017-05-12-teste-2": {
+      "title": "Teste#2",
+      "content"	 : "Table of Contents  Table of Contents  Basic Functionality          Headers        Header 1          Header 2                  Header 3                    Styling      Lists      Links      Images      Code      MathJax      Tables      Quotes      Rule      HTML        Advanced Functionality          Color and Alignment      Basic FunctionalityHeadersHeader 1Header 2Header 3StylingBoldItalicsBold and ItalicsLists      Item 1        Item 2        Unordered Item                  Sub Item 1                  Bold Sub Sub Ordered Item                    LinksIn-LineI’m a reference-style link 1I’m a reference-style link 1ImagesHold your pointer clicked over the image to expand the view.CodeInline code.import numpy as npdef hello_world():    print(&#39;Hello World!&#39;&#39;)MathJaxUse MathJax for Math.Tables            Here      is      a      row!                  is      Left      Center      Right              a      cut      it      A              column      short      B      C      Quotes  War does not decide who is right, only who is left.RuleHTMLCan write the whole post or sections in HTML for very specific needs. [For the advanced user or the code savvy.]Advanced FunctionalityHead over to the documentation page for tutorials on some basic html formatting and some extensions you can use for cool stuff like interactive 3D visualizations.Color and AlignmentThis text is centered.This is a red text with blue and green inline text.",
+      "url": "/blog/tecnologia/2017/05/12/Teste-2/",
+      "author": "Danilo Sambugaro",
+      "categories": "Tecnologia"
+    }
+    ,
+  
+
+    "tecnologia-2017-05-12-teste-1": {
+      "title": "Teste#1",
+      "content"	 : "Table of Contents  Table of Contents  Basic Functionality          Headers        Header 1          Header 2                  Header 3                    Styling      Lists      Links      Images      Code      MathJax      Tables      Quotes      Rule      HTML        Advanced Functionality          Color and Alignment      Basic FunctionalityHeadersHeader 1Header 2Header 3StylingBoldItalicsBold and ItalicsLists      Item 1        Item 2        Unordered Item                  Sub Item 1                  Bold Sub Sub Ordered Item                    LinksIn-LineI’m a reference-style link 1I’m a reference-style link 1ImagesHold your pointer clicked over the image to expand the view.CodeInline code.import numpy as npdef hello_world():    print(&#39;Hello World!&#39;&#39;)MathJaxUse MathJax for Math.Tables            Here      is      a      row!                  is      Left      Center      Right              a      cut      it      A              column      short      B      C      Quotes  War does not decide who is right, only who is left.RuleHTMLCan write the whole post or sections in HTML for very specific needs. [For the advanced user or the code savvy.]Advanced FunctionalityHead over to the documentation page for tutorials on some basic html formatting and some extensions you can use for cool stuff like interactive 3D visualizations.Color and AlignmentThis text is centered.This is a red text with blue and green inline text.",
+      "url": "/blog/tecnologia/2017/05/12/Teste-1/",
+      "author": "Danilo Sambugaro",
+      "categories": "Tecnologia"
+    }
+    ,
+  
+
+    "tutorial-2016-04-19-new-post": {
+      "title": "New Post",
+      "content"	 : "Table of Contents  Table of Contents  Basic Functionality          Headers        Header 1          Header 2                  Header 3                    Styling      Lists      Links      Images      Code      MathJax      Tables      Quotes      Rule      HTML        Advanced Functionality          Color and Alignment      Basic FunctionalityHeadersHeader 1Header 2Header 3StylingBoldItalicsBold and ItalicsLists      Item 1        Item 2        Unordered Item                  Sub Item 1                  Bold Sub Sub Ordered Item                    LinksIn-LineI’m a reference-style link 1I’m a reference-style link 1ImagesHold your pointer clicked over the image to expand the view.CodeInline code.import numpy as npdef hello_world():    print(&#39;Hello World!&#39;&#39;)MathJaxUse MathJax for Math.Tables            Here      is      a      row!                  is      Left      Center      Right              a      cut      it      A              column      short      B      C      Quotes  War does not decide who is right, only who is left.RuleHTMLCan write the whole post or sections in HTML for very specific needs. [For the advanced user or the code savvy.]Advanced FunctionalityHead over to the documentation page for tutorials on some basic html formatting and some extensions you can use for cool stuff like interactive 3D visualizations.Color and AlignmentThis text is centered.This is a red text with blue and green inline text. ",
+      "url": "/blog/tutorial/2016/04/19/New-Post/",
+      "author": "Danilo Sambugaro",
+      "categories": "Tutorial"
+    }
+    ,
+  
+
+    "tutorial-2000-06-06-post-4": {
+      "title": "Post#4",
+      "content"	 : "Table of Contents  Table of Contents  Basic Functionality          Headers        Header 1          Header 2                  Header 3                    Styling      Lists      Links      Images      Code      MathJax      Tables      Quotes      Rule      HTML        Advanced Functionality          Color and Alignment      Basic FunctionalityHeadersHeader 1Header 2Header 3StylingBoldItalicsBold and ItalicsLists      Item 1        Item 2        Unordered Item                  Sub Item 1                  Bold Sub Sub Ordered Item                    LinksIn-LineI’m a reference-style link 1I’m a reference-style link 1ImagesHold your pointer clicked over the image to expand the view.CodeInline code.import numpy as npdef hello_world():    print(&#39;Hello World!&#39;&#39;)MathJaxUse MathJax for Math.Tables            Here      is      a      row!                  is      Left      Center      Right              a      cut      it      A              column      short      B      C      Quotes  War does not decide who is right, only who is left.RuleHTMLCan write the whole post or sections in HTML for very specific needs. [For the advanced user or the code savvy.]Advanced FunctionalityHead over to the documentation page for tutorials on some basic html formatting and some extensions you can use for cool stuff like interactive 3D visualizations.Color and AlignmentThis text is centered.This is a red text with blue and green inline text.",
+      "url": "/blog/tutorial/2000/06/06/Post-4/",
+      "author": "Danilo Sambugaro",
+      "categories": "Tutorial"
+    }
+    
+  
+
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+}

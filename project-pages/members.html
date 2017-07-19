@@ -8,20 +8,32 @@ header-img: "img/home-bg.jpg"
 
 {% for member in site.data.members %} {% if member.visible == true %}
 
-	<img src="{{ member.img }}" style="margin-top:0px; margin-bottom:5px; margin-right:10px; float:left; width:150px !important">
+	<img class="img-circle" src="{{ member.img }}" style="margin-top:0px; margin-bottom:5px; margin-right:10px; float:left; width:150px !important">
 
 	<h1>{{ member.name }}</h1>
 
 	<h2>{{ member.role }}</h2>
 
 	{% if member.github %}
-	<span class="social-share-googleplus"><a href="https://github.com/{{ member.github }}" title="Github"><img src="{{ "/img/icons/github-icon.png" | prepend: site.baseurl }}" style="height:30px">Github</a></span>
+	<a title="Github" href="https://github.com/{{ member.github }}" target="_blank">
+		<span class="fa-stack fa-lg" style="font-size:20px">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-github fa-stack-1x fa-inverse"></i>
+		</span></a>
 	{% endif %}
 	{% if member.gplus %}
-	<span class="social-share-googleplus"><a href="{{ member.gplus }}" title="Google Plus"><img src="{{ "/img/icons/gplus-icon.png" | prepend: site.baseurl }}" style="height:23px">Google Plus</a></span>
+	<a title="Google+" href="{{ member.gplus }}" target="_blank">
+		<span class="fa-stack fa-lg" style="font-size:20px">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+		</span></a>
 	{% endif %}
 	{% if member.url %}
-	<span class="social-share-googleplus"><a href="{{ member.url }}" title="Google Plus"><img src="{{ "/img/icons/url-icon.png"| prepend: site.baseurl }}" style="height:22px">Website</a></span>
+	<a title="Website" href="{{ member.url }}" target="_blank">
+		<span class="fa-stack fa-lg" style="font-size:20px">
+			<i class="fa fa-circle fa-stack-2x"></i>
+			<i class="fa fa-globe fa-stack-1x fa-inverse"></i>
+		</span></a>
 	{% endif %}
 
 	</br>
