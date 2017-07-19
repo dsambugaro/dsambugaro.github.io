@@ -21,7 +21,7 @@
                 <li class="dropdown">
                      <a href="{{ site.baseurl }}/categoria/">Categorias</a>
                      <ul class="dropdown-menu" style="background-color: rgba(255, 255, 255, 0.8); -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0); border: 1px solid #f2f2f2; box-shadow: 0 0px 0px rgba(0, 0, 0, 0;">
-				{% for page in site.pages %}{% if page.url contains "categoria/" %}{% if page.title %}
+				{% for page in site.pages %}{% if page.url contains "categoria/" %}{% if page.title and page.title != 'Categorias'%}
                     <li>
                         <a style="color: #404040;" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
                     </li>
