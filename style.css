@@ -60,3 +60,15 @@ strong {
 .caps {
     text-transform: uppercase;
 }
+
+@media (max-width: 1170px) {
+     .card {
+          display: none;
+     }
+}
+
+@media (max-width: 992px) {
+     .card {
+          display: block;
+     }
+}

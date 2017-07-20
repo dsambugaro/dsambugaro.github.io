@@ -424,7 +424,8 @@ div.notepad-index-post-tags {
 	margin-bottom: 0.3125rem; }
 .notepad-index-post-tags a:hover {
 	color: #e51843;
-	border: 0.0625rem solid #e51843; }
+	border: 0.0625rem solid #e51843;
+     text-decoration: none; }
 
 table {
 	width:100%;
