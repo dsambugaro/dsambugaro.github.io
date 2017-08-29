@@ -1,0 +1,27 @@
+# Members
+
+- name: Danilo Sambugaro
+  role: Bacharelando em Ciênca da Computação
+  img: https://avatars.githubusercontent.com/u/13372649?v=4&s=460
+  github: dsambugaro
+  twitter:
+  gplus:
+  facebook:
+  reddit: https://www.reddit.com/user/dsambugaro/
+  bio: <p class="flow-text">
+      Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná -
+      <a href="http://www.utfpr.edu.br/" alt="Link para o site da UTFPR" target="_blank">UTFPR&nbsp;<i class="fa fa-stack fa-external-link" aria-hidden="true" style="font-size:70%; width:auto; vertical-align:bottom;"></i></a>,
+      apreciador do Python e entusiasta de <em>Código Aberto</em> e <em>Linux</em>.
+       </p>
+       <p class="flow-text">
+           Sou um tanto maker, como hobby brinco um pouco com sistemas embarcados, utilizando
+           <em>
+               <a href="https://www.raspberrypi.org/" alt="Link para o site Oficial do Raspberry Pi" target="_blank">Raspberry Pi&nbsp;<i class="fa fa-stack fa-external-link" aria-hidden="true" style="font-size:70%; width:auto; vertical-align:bottom;"></i></a>
+           </em>
+           ou
+           <em>
+               <a href="https://www.arduino.cc/" alt="Link para o site Oficial do Arduino" target="_blank">Arduino&nbsp;<i class="fa fa-stack fa-external-link" aria-hidden="true" style="font-size:70%; width:auto; vertical-align:bottom;"></i></a>
+           </em> para alguns projetos pessoais.
+       </p>
+  url: https://dsambugaro.github.io/
+  visible: true
