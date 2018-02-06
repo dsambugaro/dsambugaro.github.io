@@ -8,8 +8,8 @@ url: "https://dsambugaro.github.io" # the base hostname & protocol for your site
 
 # Author settings
 author: Danilo Sambugaro # add your name
-author-pic: adam-face.jpg
-about-author: Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná - UTFPR , entusiasta de Código Aberto e Linux, apreciador do Python e Web Developer <br> Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná - UTFPR , entusiasta de Código Aberto e Linux, apreciador do Python e Web Developer
+author-pic: https://avatars.githubusercontent.com/u/13372649?v=4&s=460
+about-author: Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná - UTFPR , entusiasta de Código Aberto e Linux, apreciador do Python e Web Developer <br> Sou um tanto maker, como hobby brinco um pouco com sistemas embarcados, utilizando Raspberry Pi ou Arduino para alguns projetos pessoais.
 
 # Contact links
 email: dan.sambugaro@gmail.com # Add your Email address
