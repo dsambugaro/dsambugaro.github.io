@@ -11,15 +11,17 @@ url: "https://dsambugaro.github.io" # the base hostname & protocol for your site
 # Author settings
 author: Adam Neilson # add your name
 author-pic: adam-face.jpg
-about-author: My name is Adam Neilson. I’m a full-time adventure travel blogger and photographer who’s been exploring the world for over 2 years.
+about-author: Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná - UTFPR , entusiasta de Código Aberto e Linux, apreciador do Python e Web Developer
+
+Sou um tanto maker, como hobby brinco um pouco com sistemas embarcados, utilizando Raspberry Pi   ou Arduino   para alguns projetos pessoais.
 
 # Contact links
-email: # Add your Email address
+email: dan.sambugaro@gmail.com # Add your Email address
 phone: # Add your Phone number
 website: # Add your website, do not add http://
 linkedin: # Add your Linkedin handle
-github: artemsheludko # Add your Github handle
-twitter: '@artemsheludko_' # Add your Twitter handle
+github: dsambugaro # Add your Github handle
+twitter: '@dsambugaro_' # Add your Twitter handle
 facebook: # Add your Facebook handle
 instagram: # Add your Instagram handle
 pinterest: # Add your Pinterest handle
@@ -28,7 +30,7 @@ pinterest: # Add your Pinterest handle
 mailchimp: # Add your MailChimp form identifier.
 
 # Disqus
-discus_identifier: mr-brown # Add your discus identifier
+discus_identifier: dsambugaro # Add your discus identifier
 
 # Tracker
 analytics: # Google Analytics
