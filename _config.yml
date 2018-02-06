@@ -1,29 +1,25 @@
 title: My personal blog - Adam Neilson
 email: your-email@domain.com
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Informations about the developer Danilo Sambugaro and personal Blog.
 permalink: ':title/'
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://dsambugaro.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Author settings
-author: Adam Neilson # add your name
+author: Danilo Sambugaro # add your name
 author-pic: adam-face.jpg
 about-author: Estudante de Ciência da Computação na Universidade Tecnológica Federal do Paraná - UTFPR , entusiasta de Código Aberto e Linux, apreciador do Python e Web Developer
-
-Sou um tanto maker, como hobby brinco um pouco com sistemas embarcados, utilizando Raspberry Pi   ou Arduino   para alguns projetos pessoais.
 
 # Contact links
 email: dan.sambugaro@gmail.com # Add your Email address
 phone: # Add your Phone number
 website: # Add your website, do not add http://
-linkedin: # Add your Linkedin handle
+linkedin: dsambugaro # Add your Linkedin handle
 github: dsambugaro # Add your Github handle
 twitter: '@dsambugaro_' # Add your Twitter handle
-facebook: # Add your Facebook handle
-instagram: # Add your Instagram handle
+facebook: dsambugaro # Add your Facebook handle
+instagram: dsambugaro # Add your Instagram handle
 pinterest: # Add your Pinterest handle
 
 # Newsletter
