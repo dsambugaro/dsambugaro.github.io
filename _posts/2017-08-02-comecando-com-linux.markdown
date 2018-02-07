@@ -128,7 +128,7 @@ author: Danilo Sambugaro # Add name author (optional)
    Com isso você já deve ser capaz de começar a utilizar seu sistema linux, mas ainda há muito mais para aprender, recomendo o <a href="http://www.guiafoca.org/?page_id=238" target="\_blank">Guia Foca GNU/Linux</a>, que é um guia que traz desde explicações básicas do sistema Linux até a administração e segurança. Se quiser se tornar um especialista recomendo ainda o livro <i>Linux, a Bíblia</i> (ALTA BOOKS, 2014).
    </p>
    <p align="justify">
-   Nunca deixe de ler a documentação do sistema que está utilizando e se mantenha ativo na comunidade Linux, tirando suas dúvidas, sanando as de outros e participando de discuções. <a href="https://www.vivaolinux.com.br/" target="\_blank">Vivo o Linux</a> é umas das maiores comunidades Linux da América Latina, vale dar uma olhada no site deles.
+   Nunca deixe de ler a documentação do sistema que está utilizando e se mantenha ativo na comunidade Linux, tirando suas dúvidas, sanando as de outros e participando de discuções. <a href="https://www.vivaolinux.com.br/" target="\_blank">Viva o Linux</a> é umas das maiores comunidades Linux da América Latina, vale dar uma olhada no site deles.
    </p>
    <p align="justify">
    Boa sorte nos seus estudos e bem vindo ao Linux.!
