@@ -1,7 +1,12 @@
 body {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     min-height: 100vh;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 nav i,
@@ -14,7 +19,9 @@ nav i.material-icons {
 }
 
 main {
-    flex: 1 0 auto;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,7 +35,8 @@ main a {
 
 main a:hover {
     color:#1565C0;
-    text-decoration-color: #1565C0;
+    -webkit-text-decoration-color: #1565C0;
+            text-decoration-color: #1565C0;
     text-decoration: underline;
 }
 
