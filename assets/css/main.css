@@ -1467,6 +1467,7 @@ pre code {
 }
 
 .about-header .subtitle {
+  text-align: justify;
   color: #311e3e;
   font-weight: 300;
   margin: 0;
