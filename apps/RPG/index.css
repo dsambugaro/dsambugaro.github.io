@@ -1,0 +1,8 @@
+.arrow-box {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-right: 40px solid #8de698;
+    border-bottom: 20px solid #8de698;
+    border-left: 40px solid transparent;
+}
