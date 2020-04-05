@@ -1,0 +1,113 @@
+{
+    "main": {
+        "greeting": "Hello There",
+        "name": "Danilo Sambugaro",
+        "occupation": "Computer Scientist",
+        "description": "I'm <span>Danilo Sambugaro</span> and I'm taking my under degree in <span>Computer Science</span> at <a href=\"http://www.utfpr.edu.br/campus/campomourao/\" target=\"_blank\">Federal University of Technology - Paraná (UTFPR)</a>, currently employed by <a href=\"http://relevantsolutions.com.br/\" target=\"_blank\">Relevant Solutions</a> where I work as a <span>front-end and back-end developer</span> across the range of our products, as well being one of <span>Embedded Developers</span> in our IoT hardware",
+        "image": "https://avatars.githubusercontent.com/u/13372649",
+        "bio": "My first \"Hello World\" was during high school, around 2012. Since then I have been learning a lot and I'll learn even more, I hope. I'm a big Linux enthusiast, the same for Open Source projects. Being a little bit Maker, I like to play around with Raspberry Pi, Arduino, ESP32 and other microcontrollers for personal projects. Recently I started learning computer vision and neural networks, I'm really enjoying it let's see where this will take me (:",
+        "contactmessage": "Have a project for me? Think I'd be a good fit for your team? I'd love to hear from you, give me a shout by email if you'd like to get in contact with me.",
+        "email": "dan.sambugaro@gmail.com",
+        "phone": "+55 44 98822-5689",
+        "address": {
+            "street": "José Luiz Rodolfo",
+            "city": "Araruna",
+            "state": "Paraná, Brazil",
+            "zip": "87260-000"
+        },
+        "website": "https://dsambugaro.github.io/",
+        "resumedownload": "https://dsambugaro.github.io/",
+        "social": [{
+                "name": "facebook",
+                "url": "https://www.facebook.com/dsambugaro",
+                "className": "fab fa-facebook"
+            },
+            {
+                "name": "linkedin",
+                "url": "https://www.linkedin.com/in/dsambugaro",
+                "className": "fab fa-linkedin"
+            },
+            {
+                "name": "instagram",
+                "url": "http://instagram.com/dsambugaro",
+                "className": "fab fa-instagram"
+            },
+            {
+                "name": "telegram",
+                "url": "https://t.me/dsambugaro",
+                "className": "fab fa-telegram"
+            },
+            {
+                "name": "stackoverflow",
+                "url": "https://pt.stackoverflow.com/users/66361/danilo-sambugaro",
+                "className": "fab fa-stack-overflow"
+            },
+            {
+                "name": "github",
+                "url": "http://github.com/dsambugaro",
+                "className": "fab fa-github"
+            }
+        ]
+    },
+    "resume": {
+        "skillmessage": "I believe that everyone always has something to learn and something to teach. Learning is a constant process, I'm always interested in playing around with new technologies",
+        "education": [{
+            "school": "Federal University of Technology - Paraná (UTFPR)",
+            "degree": "Bachelor in Computer Science",
+            "graduated": "August 2016 - Present",
+            "description": "Here I took my Bachelor of Computer Science and achieved a much more thorough education in the underlying theory, concepts, and science behind more complex programming. I also had hands-on experience, I built database structures for fictional companies, created small video games, built and coded an Arduino Robot, whose movements were controlled by physical blocks placed on the remote control. I have a lot of Python and C programming for data structures, also played around with some JS Frameworks, such as Vue and React, and much more."
+        }],
+        "work": [{
+            "company": "Relevant Solutions",
+            "title": "Front-end, Back-end and Embedded developer",
+            "years": "April 2019 - Present",
+            "description": "Here I work across the range of company's products, working with React js for front-end and Java for back-end, although I'm most active on the company's IoT products, using ESP32 and Raspberry Pi with C, Java and, sometimes, Python.  I also design some PCBs, when it is in range of my skills."
+        }],
+        "skills": [{
+                "name": "Git",
+                "description": "I use Git for all of my projects so far. I have used Git for version control in small teams and have toyed around with contributing to Open Source Projects.",
+                "image": "git.svg"
+            },
+            {
+                "name": "C",
+                "description": "C was the first programming language that I started using in college years ago. Nowadays I use C to program microcontrollers like ATmega328 and ESP32.",
+                "image": "C.svg"
+            },
+            {
+                "name": "Java",
+                "description": "I work with Java daily, constantly improving my skills and knowledge of the language. I don't have work directly with Spring or Hibernate, but I understand how they work.",
+                "image": "java.svg"
+            },
+            {
+                "name": "Python",
+                "description": "Python is the programming language that I like the most. It is by far the language I am most familiar with in terms of data-structure and algorithm programming.",
+                "image": "python.svg"
+            },
+            {
+                "name": "OpenCV",
+                "description": "I'm fairly new to OpenCV. I have been working with this library in my undergraduate thesis, seems that I'm getting the hang of it.",
+                "image": "opencv.svg"
+            },
+            {
+                "name": "TensorFlow",
+                "description": "I'm also fairly new to TensorFlow. I want to use TensorFlow with OpenCV in the future, but first I need to understand it better.",
+                "image": "tensorflow_new.svg"
+            }
+
+        ]
+    },
+    "portfolio": {
+        "projects": [{
+            "title": "Canadian Wanderlust",
+            "category": "My Travel Blog for my post-university travels",
+            "image": "canadian-wanderlust.jpg",
+            "url": "https://www.canadianwanderlust.com"
+        }]
+    },
+    "testimonials": {
+        "testimonials": [{
+            "text": "",
+            "user": ""
+        }]
+    }
+}

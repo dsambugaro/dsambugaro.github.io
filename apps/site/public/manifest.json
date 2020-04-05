@@ -1,0 +1,13 @@
+{
+    "short_name": "DS Website",
+    "name": "Danilo Sambugaro Website",
+    "icons": [{
+        "src": "https://avatars.githubusercontent.com/u/13372649",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
+    }],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}
