@@ -55,7 +55,7 @@
             "school": "Federal University of Technology - Paraná (UTFPR)",
             "degree": "Bachelor in Computer Science",
             "graduated": "August 2016 - Present",
-            "description": "Here I took my Bachelor of Computer Science and achieved a much more thorough education in the underlying theory, concepts, and science behind more complex programming. I also had hands-on experience, I built database structures for fictional companies, created small video games, built and coded an Arduino Robot, whose movements were controlled by physical blocks placed on the remote control. I have a lot of Python and C programming for data structures, also played around with some JS Frameworks, such as Vue and React, and much more."
+            "description": "Here I took my Bachelor of Computer Science and achieved a much more thorough education in the underlying theory, concepts, and science behind more complex programming. I also had hands-on experience, I built database structures for fictional companies, created small video games and also built and coded an Arduino Robot, whose movements were controlled by physical blocks placed on the remote control. I also had a lot of Python and C programming for data structures, also played around with some JS Frameworks, such as Vue and React, and much more."
         }],
         "work": [{
             "company": "Relevant Solutions",
@@ -75,7 +75,7 @@
             },
             {
                 "name": "Java",
-                "description": "I work with Java daily, constantly improving my skills and knowledge of the language. I don't have work directly with Spring or Hibernate, but I understand how they work.",
+                "description": "I work with Java daily, constantly improving my skills and knowledge of the language. I haven't work directly with Spring and Hibernate, but I understand how they work.",
                 "image": "java.svg"
             },
             {
