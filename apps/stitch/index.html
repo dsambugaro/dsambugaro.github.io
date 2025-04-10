@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stitch - Ferramentas para Crochê</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6200ee;
+            --primary-dark: #3700b3;
+            --secondary-color: #03dac6;
+            --background-color: #f5f5f5;
+            --text-color: #333333;
+        }
+        
+        html, body {
+            overflow-x: hidden;
+            height: 100%;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .content-wrapper {
+            flex: 1 0 auto;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.6;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-subheading {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .main-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            margin-top: -3rem;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .tool-card {
+            border-radius: 8px;
+            border: none;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-card .card-img-top {
+            height: 180px;
+            object-fit: cover;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .tool-card .card-title {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .tool-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .tool-card .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: background-color 0.2s;
+        }
+        
+        .tool-card .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(98, 0, 238, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .coming-soon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(15deg);
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem 0;
+            flex-shrink: 0;
+        }
+        
+        .footer-heart {
+            color: #f06292;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-heading {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subheading {
+                font-size: 1.2rem;
+            }
+            
+            .main-container {
+                padding: 2rem;
+                margin-top: -2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+            
+            .hero-heading {
+                font-size: 2rem;
+            }
+            
+            .main-container {
+                padding: 1.5rem;
+                margin-top: -1.5rem;
+                border-radius: 8px 8px 0 0;
+            }
+            
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+            
+            .hero-heading {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subheading {
+                font-size: 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+                margin-top: -1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Seção Hero -->
+        <section class="hero-section">
+            <div class="hero-pattern"></div>
+            <div class="container hero-content text-center">
+                <h1 class="hero-heading">Stitch</h1>
+                <p class="hero-subheading mx-auto">Ferramentas digitais para facilitar seus projetos de crochê e transformar sua criatividade em realidade.</p>
+                <!-- <a href="#tools" class="btn btn-light btn-lg px-4 rounded-pill">
+                    <i class="fas fa-tools me-2"></i>Ver ferramentas
+                </a> -->
+            </div>
+        </section>
+        
+        <!-- Conteúdo Principal -->
+        <div class="container">
+            <div class="main-container">
+                <!-- Ferramentas -->
+                <section id="tools">
+                    <h2 class="section-title"><i class="fas fa-toolbox me-2"></i>Nossas Ferramentas</h2>
+                    
+                    <div class="row g-4">
+                        <!-- Ferramenta 1: Analisador de Pixel Art -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card tool-card h-100">
+                                <div class="card-img-top d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-th"></i>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">Analisador de Pixel Art</h3>
+                                    <p class="card-text">Transforme imagens de pixel art em padrões de crochê detalhados, com contagem de pontos e detecção automática de cores.</p>
+                                    <a href="pixel-art-analizer/index.html" class="btn btn-primary mt-3">
+                                        <i class="fas fa-arrow-right me-2"></i>Acessar ferramenta
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p>Stitch - Ferramentas para Crochê &copy; 2024</p>
+            <p class="mb-0">Feito com <i class="fas fa-heart footer-heart"></i> para a comunidade de crochê</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle com Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
