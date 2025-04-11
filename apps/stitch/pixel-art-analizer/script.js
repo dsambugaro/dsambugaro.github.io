@@ -336,10 +336,16 @@ const closeCropModal = document.getElementById('closeCropModal');
 const applyCropBtn = document.getElementById('applyCrop');
 const cancelCropBtn = document.getElementById('cancelCrop');
 
-// Modificar o evento de upload de imagem e a inicialização do cropper
+// Adicionar uma variável para armazenar o nome do arquivo original
+let originalFileName = "imagem";
+
+// Modificar o evento de upload de imagem para capturar o nome do arquivo
 imageInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
+        // Capturar o nome do arquivo sem a extensão
+        originalFileName = file.name.replace(/\.[^/.]+$/, "");
+        
         const reader = new FileReader();
         reader.onload = (event) => {
             // Configurar a imagem no modal de corte
@@ -1207,4 +1213,237 @@ function displayResults(result, gridSize, columnsCount, backgroundColor, ignoreB
     gridInfo.innerHTML += `<br>Análise iniciada pela ${startFromLast ? 'última' : 'primeira'} linha, direção: ${directionInfo}.`;
     
     resultsContent.insertBefore(gridInfo, table);
+    
+    // Adicionar botão de exportação para PDF
+    const exportButtonContainer = document.createElement('div');
+    exportButtonContainer.className = 'd-grid gap-2 col-md-6 mx-auto mt-4';
+    
+    const exportButton = document.createElement('button');
+    exportButton.id = 'exportPdfBtn';
+    exportButton.className = 'btn btn-success btn-lg';
+    exportButton.innerHTML = '<i class="fas fa-file-pdf me-2"></i> Exportar para PDF';
+    exportButton.addEventListener('click', exportToPdf);
+    
+    exportButtonContainer.appendChild(exportButton);
+    resultsContent.appendChild(exportButtonContainer);
+}
+
+// Função melhorada para exportar para PDF
+function exportToPdf() {
+    // Mostrar indicador de carregamento
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.className = 'text-center mt-3';
+    loadingIndicator.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Gerando PDF...</span></div><p class="mt-2">Gerando PDF, por favor aguarde...</p>';
+    document.getElementById('resultsContent').appendChild(loadingIndicator);
+    
+    // Usar setTimeout para dar tempo ao navegador de mostrar o indicador de carregamento
+    setTimeout(() => {
+        // Capturar a imagem do canvas
+        const canvas = document.getElementById('canvas');
+        const canvasImage = canvas.toDataURL('image/png');
+        
+        // Obter informações da análise e tabela completa para renderização
+        const tableRows = Array.from(document.querySelectorAll('#resultsContent table tbody tr'));
+        const tableHeaders = Array.from(document.querySelectorAll('#resultsContent table thead th')).map(th => th.textContent);
+        
+        // Criar o PDF
+        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        
+        // Adicionar título
+        pdf.setFontSize(16);
+        pdf.setTextColor(98, 0, 238); // Cor primária do app
+        pdf.text('Analisador de Pixel Art - Resultados', pageWidth/2, 15, { align: 'center' });
+        
+        // Adicionar data e hora
+        pdf.setFontSize(10);
+        pdf.setTextColor(100, 100, 100);
+        const date = new Date().toLocaleDateString('pt-BR');
+        const time = new Date().toLocaleTimeString('pt-BR');
+        pdf.text(`Exportado em: ${date} às ${time}`, pageWidth/2, 22, { align: 'center' });
+        
+        // Adicionar a imagem original
+        pdf.setFontSize(12);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text('Imagem Analisada:', 14, 30);
+        
+        // Calcular a largura da imagem mantendo proporção
+        const imgWidth = Math.min(pageWidth - 28, canvas.width);
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        pdf.addImage(canvasImage, 'PNG', 14, 35, imgWidth, imgHeight);
+        
+        // Adicionar as informações da grade
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        
+        // Iniciar a tabela em uma nova página
+        pdf.addPage();
+        let currentY = 20;
+        
+        // Adicionar título da tabela
+        pdf.setFontSize(12);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text('Tabela de Resultados:', 14, currentY);
+        currentY += 10;
+        
+        // Adicionar cabeçalhos da tabela
+        pdf.setFillColor(98, 0, 238); // Cor primária para cabeçalhos
+        pdf.setTextColor(255, 255, 255); // Texto branco para cabeçalhos
+        pdf.setFontSize(11);
+        
+        // Definir larguras das colunas (20% para número da linha, 80% para cores)
+        const colWidths = [(pageWidth - 28) * 0.2, (pageWidth - 28) * 0.8];
+        
+        // Desenhar cabeçalhos
+        pdf.rect(14, currentY, colWidths[0], 8, 'F');
+        pdf.rect(14 + colWidths[0], currentY, colWidths[1], 8, 'F');
+        pdf.text(tableHeaders[0], 14 + colWidths[0]/2, currentY + 5, { align: 'center' });
+        pdf.text(tableHeaders[1], 14 + colWidths[0] + colWidths[1]/2, currentY + 5, { align: 'center' });
+        
+        currentY += 8;
+        
+        // Restaurar cor do texto para linhas da tabela
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(10);
+        
+        // Processar cada linha da tabela
+        for (let i = 0; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const cells = row.querySelectorAll('td');
+            
+            // Verificar se é uma linha de informação (linhas vazias)
+            const isInfoRow = cells.length === 1 && cells[0].colSpan === 2;
+            
+            // Estimar altura necessária para esta linha baseado no conteúdo
+            let rowHeight = 20; // Altura mínima aumentada significativamente
+            
+            if (isInfoRow) {
+                // Para linhas de informação (apenas texto)
+                const infoText = cells[0].textContent;
+                rowHeight = Math.max(20, Math.ceil(infoText.length / 80) * 6);
+            } else if (cells.length === 2) {
+                // Para linhas normais, estimar com base na quantidade de cores
+                const colorDivs = cells[1].querySelectorAll('div');
+                rowHeight = Math.max(20, colorDivs.length * 8); // Aumentado para mais espaço
+            }
+            
+            // Verificar se precisa de nova página
+            if (currentY + rowHeight > pageHeight - 20) {
+                pdf.addPage();
+                currentY = 20;
+                
+                // Repetir cabeçalhos na nova página
+                pdf.setFillColor(98, 0, 238);
+                pdf.setTextColor(255, 255, 255);
+                pdf.setFontSize(11);
+                
+                pdf.rect(14, currentY, colWidths[0], 8, 'F');
+                pdf.rect(14 + colWidths[0], currentY, colWidths[1], 8, 'F');
+                pdf.text(tableHeaders[0], 14 + colWidths[0]/2, currentY + 5, { align: 'center' });
+                pdf.text(tableHeaders[1], 14 + colWidths[0] + colWidths[1]/2, currentY + 5, { align: 'center' });
+                
+                currentY += 8;
+                pdf.setTextColor(0, 0, 0);
+                pdf.setFontSize(10);
+            }
+            
+            // Desenhar fundo da linha (alternando cores)
+            const fillColor = i % 2 === 0 ? 255 : 245;
+            pdf.setFillColor(fillColor, fillColor, fillColor);
+            pdf.rect(14, currentY, colWidths[0] + colWidths[1], rowHeight, 'F');
+            
+            if (isInfoRow) {
+                // Para linhas de informação (span 2 colunas)
+                pdf.setFont(undefined, 'italic');
+                pdf.text(cells[0].textContent, pageWidth/2, currentY + rowHeight/2, { align: 'center' });
+                pdf.setFont(undefined, 'normal');
+            } else if (cells.length === 2) {
+                // Para linhas normais
+                // Número da linha
+                pdf.setFontSize(12);
+                pdf.text(cells[0].textContent.split('\n')[0], 14 + colWidths[0]/2, currentY + 8, { align: 'center' });
+                
+                // Adicionar a direção da linha (seta) - reposicionada verticalmente
+                const directionIcon = cells[0].querySelector('.fas');
+                if (directionIcon) {
+                    const isRightArrow = directionIcon.classList.contains('fa-arrow-right');
+                    
+                    // Desenhar seta
+                    pdf.setDrawColor(102, 102, 102); // Cor cinza para a seta
+                    
+                    const arrowX = 14 + colWidths[0]/2;
+                    const arrowY = currentY + rowHeight/2 + 4; // Posicionamento no centro vertical + ajuste
+                    const arrowSize = 4; // Seta maior
+                    
+                    if (isRightArrow) {
+                        // Seta para a direita →
+                        pdf.line(arrowX - arrowSize, arrowY, arrowX + arrowSize, arrowY);
+                        pdf.line(arrowX + arrowSize, arrowY, arrowX, arrowY - arrowSize);
+                        pdf.line(arrowX + arrowSize, arrowY, arrowX, arrowY + arrowSize);
+                    } else {
+                        // Seta para a esquerda ←
+                        pdf.line(arrowX - arrowSize, arrowY, arrowX + arrowSize, arrowY);
+                        pdf.line(arrowX - arrowSize, arrowY, arrowX, arrowY - arrowSize);
+                        pdf.line(arrowX - arrowSize, arrowY, arrowX, arrowY + arrowSize);
+                    }
+                }
+                
+                pdf.setFontSize(9);
+                
+                // Processar cada cor da linha
+                const colorDivs = cells[1].querySelectorAll('div');
+                let colorY = currentY + 6;
+                
+                colorDivs.forEach(div => {
+                    // Encontrar a amostra de cor (square) e obter sua cor de fundo
+                    const colorSample = div.querySelector('.color-sample');
+                    if (colorSample) {
+                        const colorStyle = colorSample.style.backgroundColor;
+                        let colorText = div.textContent.trim();
+                        
+                        // Extrair componentes RGB da cor
+                        const rgbMatch = colorStyle.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+                        if (rgbMatch) {
+                            const r = parseInt(rgbMatch[1]);
+                            const g = parseInt(rgbMatch[2]);
+                            const b = parseInt(rgbMatch[3]);
+                            
+                            // Desenhar quadrado colorido
+                            pdf.setFillColor(r, g, b);
+                            pdf.setDrawColor(0);
+                            pdf.rect(14 + colWidths[0] + 4, colorY - 3, 4, 4, 'FD');
+                            
+                            // Adicionar texto da cor
+                            pdf.text(colorText, 14 + colWidths[0] + 10, colorY);
+                            colorY += 7; // Espaçamento entre linhas de cor
+                        }
+                    }
+                });
+                
+                // Se não houver cores
+                if (colorDivs.length === 0) {
+                    pdf.setFont(undefined, 'italic');
+                    pdf.text('Não foram encontrados quadrados coloridos para essa linha.',
+                        14 + colWidths[0] + 5, currentY + rowHeight/2);
+                    pdf.setFont(undefined, 'normal');
+                }
+            }
+            
+            // Adicionar bordas da célula
+            pdf.setDrawColor(222, 226, 230); // Cor das bordas
+            pdf.rect(14, currentY, colWidths[0], rowHeight, 'S');
+            pdf.rect(14 + colWidths[0], currentY, colWidths[1], rowHeight, 'S');
+            
+            currentY += rowHeight;
+        }
+        
+        // Salvar o PDF com o nome personalizado
+        const pdfFileName = `${originalFileName}_analized.pdf`;
+        pdf.save(pdfFileName);
+        
+        // Remover o indicador de carregamento
+        loadingIndicator.remove();
+    }, 100);
 }
