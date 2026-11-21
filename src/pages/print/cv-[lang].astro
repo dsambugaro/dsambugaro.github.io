@@ -1,0 +1,231 @@
+---
+// Print source for the downloadable CV. scripts/generate-assets.mjs renders it to
+// public/cv/*.pdf with headless Chromium. Not linked from the site; noindex.
+import Base from '../../layouts/Base.astro';
+import { copy, person, type Lang } from '../../i18n/content';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'pt' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = copy[lang];
+---
+
+<Base lang={lang} title={t.cv.title} noindex>
+  <article class="cv">
+    <header class="head">
+      <div>
+        <h1>{person.name}</h1>
+        <p class="role"><span class="power" aria-hidden="true"></span>{t.hero.role} · {t.hero.company}</p>
+      </div>
+      <ul class="contact mono">
+        <li>{person.email}</li>
+        <li>linkedin.com/in/dsambugaro</li>
+        <li>github.com/dsambugaro</li>
+        <li>dsambugaro.github.io</li>
+        <li>{t.hero.location}</li>
+      </ul>
+    </header>
+
+    <p class="summary">{t.cv.summary}</p>
+
+    <section>
+      <h2 class="mono">{t.experience.title}</h2>
+      {
+        t.experience.jobs.map((job) => (
+          <div class="job">
+            <h3>
+              {job.company}
+              {job.place && <span class="mono place">{job.place}</span>}
+            </h3>
+            {job.roles.map((r) => (
+              <div class="row">
+                <p class="mono when">{r.period}</p>
+                <div>
+                  <p class="title">{r.title}</p>
+                  {r.notes && (
+                    <ul class="notes">
+                      {r.notes.map((n) => (
+                        <li>{n}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2 class="mono">{t.skills.title}</h2>
+      {
+        t.skills.groups.map((g) => (
+          <div class="row">
+            <p class="mono when">{g.label}</p>
+            <p>{g.items.join(', ')}</p>
+          </div>
+        ))
+      }
+      <div class="row">
+        <p class="mono when">{t.languages.title}</p>
+        <p>{t.languages.items.map((l) => `${l.name} (${l.level})`).join(", ")}</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mono">{t.education.title}</h2>
+      {
+        t.education.items.map((e) => (
+          <div class="row">
+            <p class="mono when">{e.period}</p>
+            <div>
+              <p class="title">{e.course}</p>
+              <p class="dim">{e.school}</p>
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2 class="mono">{t.publication.title}</h2>
+      <div class="row">
+        <p class="mono when">2019</p>
+        <div>
+          <p class="title" lang="en">{t.publication.cite}</p>
+          <p class="dim">{t.publication.venue} doi.org/10.5753/erbd.2019.8474</p>
+        </div>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 12mm 15mm;
+  }
+  html {
+    background: #fff;
+  }
+  body {
+    background: #fff;
+    color: #191919;
+    font-size: 9pt;
+    line-height: 1.45;
+  }
+</style>
+
+<style>
+  .cv {
+    --ink: #191919;
+    --ink-2: #3f3e3b;
+    --muted: #5c5b58;
+    --line: #d3d0c8;
+    max-width: 178mm;
+    margin: 0 auto;
+    color: var(--ink);
+  }
+  .mono {
+    font-size: 8pt;
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 8mm;
+    padding-bottom: 5mm;
+    border-bottom: 1px solid var(--ink);
+  }
+  h1 {
+    font-size: 26pt;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .role {
+    display: flex;
+    align-items: center;
+    gap: 2.5mm;
+    margin-top: 3mm;
+    font-size: 11pt;
+  }
+  .power {
+    width: 2.2mm;
+    height: 2.2mm;
+    border-radius: 50%;
+    background: #e96a26;
+  }
+  .contact {
+    text-align: right;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .summary {
+    margin-top: 4mm;
+    font-size: 10pt;
+    color: var(--ink-2);
+    max-width: 150mm;
+  }
+  section {
+    margin-top: 4.5mm;
+    break-inside: avoid;
+  }
+  h2 {
+    padding-bottom: 1.5mm;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .job {
+    break-inside: avoid;
+  }
+  .job + .job {
+    margin-top: 1mm;
+  }
+  h3 {
+    margin-top: 2.2mm;
+    font-size: 10.5pt;
+    display: flex;
+    align-items: baseline;
+    gap: 3mm;
+  }
+  .place,
+  .when,
+  .dim {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 36mm 1fr;
+    gap: 4mm;
+    padding-block: 1.1mm;
+    border-bottom: 1px solid var(--line);
+  }
+  .when {
+    padding-top: 0.4mm;
+  }
+  .title {
+    font-weight: 500;
+  }
+  .notes {
+    margin-top: 0.8mm;
+    color: var(--ink-2);
+  }
+  .notes li {
+    position: relative;
+    padding-left: 3mm;
+  }
+  .notes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 1.6mm;
+    height: 1px;
+    background: var(--muted);
+  }
+</style>
