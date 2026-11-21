@@ -1,0 +1,631 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
+import Icon from './Icon.astro';
+import { copy, cvPath, person, type Lang } from '../i18n/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = copy[lang];
+const other: Lang = lang === 'en' ? 'pt' : 'en';
+const otherHref = other === 'pt' ? '/pt/' : '/';
+const homeHref = lang === 'pt' ? '/pt/' : '/';
+const year = new Date().getFullYear();
+---
+
+<a class="skip" href="#main">{t.nav.skip}</a>
+
+<header class="top-rail">
+  <div class="wrap top">
+  <a class="brand mono" href={homeHref}>dsambugaro</a>
+  <nav class="sections" aria-label={lang === 'pt' ? 'Seções' : 'Sections'}>
+    <ul>
+      <li><a href="#about">{t.nav.about}</a></li>
+      <li><a href="#experience">{t.nav.experience}</a></li>
+      <li><a href="#skills">{t.nav.skills}</a></li>
+      <li><a href="#contact">{t.nav.contact}</a></li>
+    </ul>
+  </nav>
+  <div class="controls">
+    <a
+      class="ctl mono"
+      href={otherHref}
+      hreflang={copy[other].htmlLang}
+      lang={copy[other].htmlLang}
+      >{t.langSwitch.short}<span class="visually-hidden"> – {t.langSwitch.label}</span></a
+    >
+    <button
+      class="ctl theme-toggle"
+      type="button"
+      aria-pressed="false"
+      data-label-dark={t.theme.toDark}
+      data-label-light={t.theme.toLight}
+      aria-label={t.theme.toDark}
+    >
+      <span class="i-moon"><Icon name="moon" /></span>
+      <span class="i-sun"><Icon name="sun" /></span>
+    </button>
+  </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <section class="hero" aria-labelledby="name">
+    <div class="hero-text">
+      <p class="status mono">
+        <span class="power" aria-hidden="true"></span>
+        {t.hero.role} · {t.hero.company}
+      </p>
+      <h1 id="name">Danilo<br />Sambugaro</h1>
+      <p class="lead">{t.hero.lead}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href={`mailto:${person.email}`}>
+          <Icon name="mail" />
+          {t.hero.ctaPrimary}
+        </a>
+        <a class="btn btn-secondary" href={cvPath[lang]} download type="application/pdf">
+          <Icon name="download" />
+          {t.hero.ctaSecondary}
+        </a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <Image
+        src={avatar}
+        alt={person.name}
+        widths={[192, 416]}
+        sizes="(min-width: 52rem) 13rem, 6rem"
+        loading="eager"
+      />
+      <figcaption class="mono">{t.hero.location}</figcaption>
+    </figure>
+  </section>
+
+  <section id="about" class="panel" aria-labelledby="about-title">
+    <h2 id="about-title">{t.about.title}</h2>
+    <div class="panel-body prose">
+      {t.about.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+
+  <section id="experience" class="panel" aria-labelledby="experience-title">
+    <h2 id="experience-title">{t.experience.title}</h2>
+    <ol class="panel-body jobs">
+      {
+        t.experience.jobs.map((job) => (
+          <li class="job">
+            <h3 class="company">
+              {job.company}
+              {job.place && <span class="place mono">{job.place}</span>}
+            </h3>
+            <ol class="roles">
+              {job.roles.map((role) => (
+                <li class="role">
+                  <p class="period mono">{role.period}</p>
+                  <div>
+                    <p class="role-title">{role.title}</p>
+                    {role.notes && role.notes.length > 0 && (
+                      <ul class="notes">
+                        {role.notes.map((n) => (
+                          <li>{n}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section id="skills" class="panel" aria-labelledby="skills-title">
+    <h2 id="skills-title">{t.skills.title}</h2>
+    <dl class="panel-body spec">
+      {
+        t.skills.groups.map((g) => (
+          <div class="spec-row">
+            <dt class="mono">{g.label}</dt>
+            <dd>{g.items.join(', ')}</dd>
+          </div>
+        ))
+      }
+      <div class="spec-row">
+        <dt class="mono">{t.languages.title}</dt>
+        <dd>{t.languages.items.map((l) => `${l.name} (${l.level})`).join(', ')}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="publication" class="panel" aria-labelledby="publication-title">
+    <h2 id="publication-title">{t.publication.title}</h2>
+    <div class="panel-body">
+      <p class="pub-title" lang="en">{t.publication.cite}</p>
+      <p class="pub-venue">{t.publication.venue}</p>
+      <p class="pub-link">
+        <a href={person.doi} rel="noopener">
+          {t.publication.link}<Icon name="arrow-up-right" />
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section id="education" class="panel" aria-labelledby="education-title">
+    <h2 id="education-title">{t.education.title}</h2>
+    <ul class="panel-body edu">
+      {
+        t.education.items.map((e) => (
+          <li class="role">
+            <p class="period mono">{e.period}</p>
+            <div>
+              <p class="role-title">{e.course}</p>
+              <p class="muted">{e.school}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="contact" class="panel" aria-labelledby="contact-title">
+    <h2 id="contact-title">{t.contact.title}</h2>
+    <div class="panel-body">
+      <p class="contact-lead">{t.contact.text}</p>
+      <ul class="links">
+        <li>
+          <span class="mono">{t.contact.email}</span>
+          <a href={`mailto:${person.email}`}><Icon name="mail" />{person.email}</a>
+        </li>
+        <li>
+          <span class="mono">LinkedIn</span>
+          <a href={person.linkedin} rel="me noopener"><Icon name="linkedin" />in/dsambugaro</a>
+        </li>
+        <li>
+          <span class="mono">GitHub</span>
+          <a href={person.github} rel="me noopener"><Icon name="github" />dsambugaro</a>
+        </li>
+        <li>
+          <span class="mono">{t.contact.cv}</span>
+          <a href={cvPath[lang]} download type="application/pdf"
+            ><Icon name="download" />{cvPath[lang].split('/').pop()}</a
+          >
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot-rail">
+  <div class="wrap foot mono">
+    <p>© {year} {person.name}</p>
+    <p><a href="https://github.com/dsambugaro/dsambugaro.github.io">{t.footer.source}</a></p>
+  </div>
+</footer>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+
+  const sync = () => {
+    if (!btn) return;
+    const dark = isDark();
+    btn.setAttribute('aria-pressed', String(dark));
+    btn.setAttribute('aria-label', (dark ? btn.dataset.labelLight : btn.dataset.labelDark) ?? '');
+  };
+
+  btn?.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+    sync();
+  });
+  media.addEventListener('change', sync);
+  sync();
+</script>
+
+<style>
+  .skip {
+    position: absolute;
+    left: var(--s-4);
+    top: -10rem;
+    z-index: 10;
+    padding: var(--s-2) var(--s-3);
+    background: var(--ink);
+    color: var(--bg);
+    text-decoration: none;
+  }
+  .skip:focus {
+    top: var(--s-4);
+  }
+
+  /* Header */
+  .top-rail {
+    border-bottom: var(--hairline);
+    padding-top: env(safe-area-inset-top);
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: var(--s-6);
+    min-height: 4.5rem;
+  }
+  .brand {
+    text-decoration: none;
+    color: var(--ink);
+    padding-block: var(--s-3);
+  }
+  .sections {
+    margin-left: auto;
+  }
+  .sections ul {
+    display: flex;
+    gap: var(--s-6);
+  }
+  .sections a {
+    font-size: var(--text-sm);
+    color: var(--ink-2);
+    text-decoration: none;
+    padding-block: var(--s-3);
+  }
+  @media (hover: hover) {
+    .sections a:hover {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+  }
+  .controls {
+    display: flex;
+    gap: var(--s-2);
+  }
+  .ctl {
+    display: inline-grid;
+    place-items: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--s-2);
+    border:  1px solid var(--muted);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color var(--dur-fast) linear;
+  }
+  @media (hover: hover) {
+    .ctl:hover {
+      border-color: var(--ink);
+    }
+  }
+  .theme-toggle .i-sun {
+    display: none;
+  }
+  .theme-toggle span {
+    display: grid;
+  }
+  :global(:root[data-theme='dark']) .theme-toggle .i-sun {
+    display: grid;
+  }
+  :global(:root[data-theme='dark']) .theme-toggle .i-moon {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .theme-toggle .i-sun {
+      display: grid;
+    }
+    :global(:root:not([data-theme='light'])) .theme-toggle .i-moon {
+      display: none;
+    }
+  }
+  @media (max-width: 40rem) {
+    .sections {
+      display: none;
+    }
+    .controls {
+      margin-left: auto;
+    }
+  }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    gap: var(--s-8);
+    padding-block: var(--s-16) var(--s-24);
+  }
+  @media (min-width: 52rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) 13rem;
+      align-items: start;
+      padding-block: var(--s-24) var(--s-32);
+    }
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    color: var(--ink-2);
+  }
+  /* The single signal colour on the page: a power light that is on. */
+  .power {
+    flex: none;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: power-on 120ms linear 350ms both;
+  }
+  @keyframes power-on {
+    from {
+      background: var(--line);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .power {
+      animation: none;
+    }
+  }
+  h1 {
+    margin-top: var(--s-6);
+    font-size: var(--text-display);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+  .lead {
+    margin-top: var(--s-8);
+    max-width: 34ch;
+    font-size: var(--text-xl);
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-12);
+  }
+  .portrait {
+    order: -1;
+    width: 6rem;
+  }
+  @media (min-width: 52rem) {
+    .portrait {
+      order: 0;
+      width: 100%;
+      margin-top: var(--s-12);
+    }
+  }
+  .portrait img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius);
+    filter: grayscale(1) contrast(1.05);
+  }
+  .portrait figcaption {
+    display: none;
+    margin-top: var(--s-3);
+    color: var(--muted);
+  }
+  @media (min-width: 52rem) {
+    .portrait figcaption {
+      display: block;
+    }
+  }
+
+  /* Panels: a hairline, a label column, a content column. */
+  .panel {
+    display: grid;
+    gap: var(--s-6);
+    padding-block: var(--s-12) var(--s-16);
+    border-top: var(--hairline);
+  }
+  @media (min-width: 52rem) {
+    .panel {
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: var(--s-8);
+      padding-block: var(--s-16) var(--s-24);
+    }
+  }
+  .panel h2 {
+    font-size: var(--text-lg);
+    line-height: 1.3;
+  }
+  .panel-body {
+    max-width: 46rem;
+  }
+  .prose p + p {
+    margin-top: var(--s-4);
+  }
+  .prose p {
+    max-width: 62ch;
+    color: var(--ink-2);
+  }
+  .prose p:first-child {
+    color: var(--ink);
+  }
+
+  /* Experience */
+  .jobs {
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--s-12);
+  }
+  .company {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-4);
+    font-size: var(--text-xl);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .place {
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+  .roles,
+  .edu {
+    padding: 0;
+    list-style: none;
+  }
+  .roles {
+    margin-top: var(--s-4);
+  }
+  .role {
+    display: grid;
+    gap: var(--s-1) var(--s-6);
+    padding-block: var(--s-4);
+    border-top: var(--hairline);
+  }
+  .edu .role:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+  @media (min-width: 36rem) {
+    .role {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+  }
+  .period {
+    color: var(--muted);
+    padding-top: 0.2em;
+  }
+  .role-title {
+    font-weight: 500;
+  }
+  .notes {
+    margin-top: var(--s-2);
+    display: grid;
+    gap: var(--s-2);
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+  .notes li {
+    position: relative;
+    padding-left: var(--s-4);
+  }
+  .notes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.75em;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--muted);
+  }
+  .muted {
+    color: var(--muted);
+  }
+
+  /* Spec table */
+  .spec {
+    margin: 0;
+  }
+  .spec-row {
+    display: grid;
+    gap: var(--s-1) var(--s-6);
+    padding-block: var(--s-3);
+    border-bottom: var(--hairline);
+  }
+  .spec-row:first-child {
+    padding-top: 0;
+  }
+  @media (min-width: 36rem) {
+    .spec-row {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+  }
+  .spec dt {
+    color: var(--muted);
+    padding-top: 0.2em;
+  }
+
+  /* Publication */
+  .pub-title {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    line-height: 1.35;
+    max-width: 40ch;
+  }
+  .pub-venue {
+    margin-top: var(--s-2);
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+  .pub-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-2) var(--s-4);
+    margin-top: var(--s-4);
+  }
+  .pub-link a,
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+  }
+  .pub-link a :global(svg) {
+    order: 1;
+  }
+
+  /* Contact */
+  .contact-lead {
+    font-size: var(--text-xl);
+    line-height: 1.35;
+    max-width: 30ch;
+  }
+  .links {
+    margin-top: var(--s-6);
+  }
+  .links li {
+    display: grid;
+    align-items: center;
+    gap: 0 var(--s-6);
+    border-bottom: var(--hairline);
+  }
+  .links li:first-child {
+    border-top: var(--hairline);
+  }
+  .links li > span {
+    color: var(--muted);
+    padding-top: var(--s-3);
+  }
+  @media (min-width: 36rem) {
+    .links li {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+    .links li > span {
+      padding-top: 0;
+    }
+  }
+  .links a {
+    justify-self: start;
+    word-break: break-all;
+  }
+
+  /* Footer */
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-6);
+    padding-block: var(--s-8) max(var(--s-8), env(safe-area-inset-bottom));
+    color: var(--muted);
+  }
+  .foot-rail {
+    border-top: var(--hairline);
+  }
+</style>
