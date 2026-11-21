@@ -9,7 +9,7 @@ import sharp from 'sharp';
 const PORT = 4329;
 const BASE = `http://localhost:${PORT}`;
 
-const server = spawn('npx', ['astro', 'preview', '--port', String(PORT), '--ignore-lock'], { stdio: 'pipe' });
+const server = spawn('node_modules/.bin/astro', ['preview', '--port', String(PORT), '--ignore-lock'], { stdio: ['ignore', 'pipe', 'inherit'] });
 await new Promise((resolve, reject) => {
   const timer = setTimeout(() => reject(new Error('preview did not start')), 30000);
   server.stdout.on('data', (d) => {
@@ -46,8 +46,8 @@ try {
   }
 } finally {
   await browser.close();
+  server.stdout.destroy();
   server.kill();
-  spawn('npx', ['astro', 'preview', 'stop'], { stdio: 'ignore' });
 }
 
 const svg = await readFile('public/favicon.svg');

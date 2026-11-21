@@ -53,7 +53,7 @@ export type Copy = {
   skills: { title: string; groups: SkillGroup[] };
   education: {
     title: string;
-    items: { school: string; course: string; period: string }[];
+    items: { school: string; course: string; period?: string }[];
   };
   publication: { title: string; cite: string; venue: string; link: string };
   languages: { title: string; items: { name: string; level: string }[] };
@@ -171,7 +171,6 @@ const en: Copy = {
       {
         school: 'Federal University of Technology – Paraná (UTFPR)',
         course: 'BSc in Computer Science',
-        period: '2016 – 2026',
       },
       {
         school: 'SENAI Campo Mourão',
@@ -317,7 +316,6 @@ const pt: Copy = {
       {
         school: 'Universidade Tecnológica Federal do Paraná (UTFPR)',
         course: 'Bacharelado em Ciência da Computação',
-        period: '2016 – 2026',
       },
       {
         school: 'SENAI Campo Mourão',

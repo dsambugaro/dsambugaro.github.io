@@ -80,7 +80,7 @@ const t = copy[lang];
       {
         t.education.items.map((e) => (
           <div class="row">
-            <p class="mono when">{e.period}</p>
+            <p class="mono when">{e.period ?? ""}</p>
             <div>
               <p class="title">{e.course}</p>
               <p class="dim">{e.school}</p>

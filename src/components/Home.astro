@@ -161,7 +161,7 @@ const year = new Date().getFullYear();
       {
         t.education.items.map((e) => (
           <li class="role">
-            <p class="period mono">{e.period}</p>
+            <p class="period mono">{e.period ?? ""}</p>
             <div>
               <p class="role-title">{e.course}</p>
               <p class="muted">{e.school}</p>
