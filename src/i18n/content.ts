@@ -30,14 +30,14 @@ const en: Copy = {
   meta: {
     title: 'Danilo Sambugaro, Senior Software Engineer',
     description:
-      'Backend developer shipping production software since 2019. Go services on PostgreSQL, and the specs, harnesses and feedback loops that keep AI agents honest.',
+      'Backend developer building services and APIs since 2019, from a product need to a system running in production, working alongside AI agents.',
   },
   langSwitch: { label: 'Ler em português', short: 'PT' },
   theme: { toDark: 'Switch to dark theme', toLight: 'Switch to light theme' },
   role: 'Senior Software Engineer',
   country: 'Brazil',
   intro:
-    'I’m a backend developer shipping production software since 2019. Most days that means Go services on PostgreSQL, and the specs, harnesses and feedback loops that keep AI agents honest while they help me build them.',
+    'I’m a backend developer building services and APIs since 2019. I take a product need, shape the backend behind it and keep it running in production, working alongside AI agents with clear specs and checks at every step.',
   linksLabel: 'Find me online',
   newTab: 'opens in a new tab',
 };
@@ -48,14 +48,14 @@ const pt: Copy = {
   meta: {
     title: 'Danilo Sambugaro, Senior Software Engineer',
     description:
-      'Desenvolvedor backend com software em produção desde 2019. Serviços em Go sobre PostgreSQL, e as specs, harnesses e loops de feedback que mantêm agentes de IA no trilho.',
+      'Desenvolvedor backend que constrói serviços e APIs desde 2019, da necessidade de produto ao sistema rodando em produção, junto com agentes de IA.',
   },
   langSwitch: { label: 'Read in English', short: 'EN' },
   theme: { toDark: 'Mudar para o tema escuro', toLight: 'Mudar para o tema claro' },
   role: 'Senior Software Engineer',
   country: 'Brasil',
   intro:
-    'Sou desenvolvedor backend e coloco software em produção desde 2019. No dia a dia, isso quer dizer serviços em Go sobre PostgreSQL, e as specs, harnesses e loops de feedback que mantêm agentes de IA no trilho enquanto me ajudam a construí-los.',
+    'Sou desenvolvedor backend e construo serviços e APIs desde 2019. Pego uma necessidade de produto, desenho o backend por trás dela e mantenho tudo rodando em produção, trabalhando junto com agentes de IA, com specs claras e verificação em cada etapa.',
   linksLabel: 'Onde me encontrar',
   newTab: 'abre em nova aba',
 };
