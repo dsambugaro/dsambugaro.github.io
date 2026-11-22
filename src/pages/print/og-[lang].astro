@@ -1,0 +1,76 @@
+---
+// 1200x630 Open Graph card, screenshotted by scripts/generate-assets.mjs. noindex.
+import Base from '../../layouts/Base.astro';
+import { copy, type Lang } from '../../i18n/content';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'en' } }, { params: { lang: 'pt' } }];
+}
+
+const lang = Astro.params.lang as Lang;
+const t = copy[lang];
+---
+
+<Base lang={lang} title="OG" noindex>
+  <div class="card">
+    <p class="mono status"><span class="power"></span>{t.role} · {t.country}</p>
+    <p class="name">Danilo<br /><span class="surname">Sambugaro</span></p>
+    <p class="lead">{t.meta.description}</p>
+    <p class="mono url">dsambugaro.github.io</p>
+  </div>
+</Base>
+
+<style is:global>
+  html,
+  body {
+    background: #fff3dd;
+    color: #191919;
+  }
+</style>
+<style>
+  .card {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    padding: 72px 80px;
+    background: #fff3dd;
+    border-bottom: 12px solid #2b59c3;
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 22px;
+    color: #44372b;
+  }
+  .power {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #e4572e;
+  }
+  .name {
+    margin-top: 28px;
+    font-size: 128px;
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+  }
+  .surname {
+    color: #c2410c;
+  }
+  .lead {
+    margin-top: 36px;
+    max-width: 46ch;
+    font-size: 28px;
+    line-height: 1.35;
+    color: #44372b;
+  }
+  .url {
+    position: absolute;
+    right: 80px;
+    top: 80px;
+    font-size: 20px;
+    color: #6b5743;
+  }
+</style>

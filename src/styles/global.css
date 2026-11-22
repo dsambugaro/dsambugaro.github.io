@@ -1,0 +1,320 @@
+/* Default: warm, colourful palette. Clicking the portrait (easter egg) switches
+   to "gray" mood: the original paper-and-ink Braun palette, photo in grayscale. */
+
+:root {
+  color-scheme: light;
+
+  /* Colour, light */
+  --bg: #fff3dd;
+  --surface: #ffe6bd;
+  --ink: #1c1917;
+  --ink-2: #44372b;
+  --muted: #6b5743;
+  --line: #efc98a;
+  --accent: #e4572e;
+  --btn-bg: #2b59c3;
+  --btn-fg: #ffffff;
+  --btn-hover: #234aa3;
+  --name-2: #c2410c;
+
+  /* Type */
+  --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --text-display: clamp(2.75rem, 1.4rem + 5.6vw, 5.75rem);
+
+  /* Space: 4px sub-grid */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-6: 1.5rem;
+  --s-8: 2rem;
+  --s-12: 3rem;
+  --s-16: 4rem;
+  --s-24: 6rem;
+  --s-32: 8rem;
+  --gutter: clamp(1rem, 4vw, 3rem);
+
+  /* Shape */
+  --radius: 2px;
+  --hairline: 1px solid var(--line);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 120ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #13263a;
+    --surface: #1b3350;
+    --ink: #fdf6ea;
+    --ink-2: #e3d8c6;
+    --muted: #b9ab95;
+    --line: #2f4a6b;
+    --accent: #ff9f5a;
+    --btn-bg: #f5c518;
+    --btn-fg: #1c1917;
+    --btn-hover: #ffd84d;
+    --name-2: #ffb27a;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #13263a;
+  --surface: #1b3350;
+  --ink: #fdf6ea;
+  --ink-2: #e3d8c6;
+  --muted: #b9ab95;
+  --line: #2f4a6b;
+  --accent: #ff9f5a;
+  --btn-bg: #f5c518;
+  --btn-fg: #1c1917;
+  --btn-hover: #ffd84d;
+  --name-2: #ffb27a;
+}
+
+/* Gray mood (easter egg). */
+:root[data-mood='gray'] {
+  --bg: #f5f4f0;
+  --surface: #ebe9e3;
+  --ink: #191919;
+  --ink-2: #3f3e3b;
+  --muted: #5c5b58;
+  --line: #d3d0c8;
+  --accent: #8a8885;
+  --btn-bg: #191919;
+  --btn-fg: #f5f4f0;
+  --btn-hover: #383735;
+  --name-2: #191919;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-mood='gray']:not([data-theme='light']) {
+    --bg: #161615;
+    --surface: #201f1e;
+    --ink: #edebe6;
+    --ink-2: #cfcdc7;
+    --muted: #a3a19b;
+    --line: #363532;
+    --accent: #7d7b77;
+    --btn-bg: #edebe6;
+    --btn-fg: #161615;
+    --btn-hover: #d6d4ce;
+    --name-2: #edebe6;
+  }
+}
+
+:root[data-mood='gray'][data-theme='dark'] {
+  --bg: #161615;
+  --surface: #201f1e;
+  --ink: #edebe6;
+  --ink-2: #cfcdc7;
+  --muted: #a3a19b;
+  --line: #363532;
+  --accent: #7d7b77;
+  --btn-bg: #edebe6;
+  --btn-fg: #161615;
+  --btn-hover: #d6d4ce;
+  --name-2: #edebe6;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--s-6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  font-kerning: normal;
+  font-feature-settings: 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: break-word;
+  transition:
+    background-color 600ms var(--ease-out),
+    color 600ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
+
+.confetti,
+.rain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: var(--muted);
+  transition: text-decoration-color var(--dur-fast) linear;
+}
+
+@media (hover: hover) {
+  a:hover {
+    text-decoration-color: var(--ink);
+    text-decoration-thickness: 2px;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 74rem;
+  margin-inline: auto;
+  padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* Buttons: plain labels, sharp corners, no shadow. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  font: 500 var(--text-sm) / 1.2 var(--font-sans);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--dur-fast) linear,
+    color var(--dur-fast) linear,
+    transform 80ms linear;
+}
+
+.btn svg {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+}
+
+.btn-primary {
+  background: var(--btn-bg, var(--ink));
+  border-color: var(--btn-bg, var(--ink));
+  color: var(--btn-fg, var(--bg));
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+}
+
+@media (hover: hover) {
+  .btn-primary:hover {
+    background: var(--btn-hover);
+    border-color: var(--btn-hover);
+  }
+  .btn-secondary:hover {
+    background: var(--surface);
+  }
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
