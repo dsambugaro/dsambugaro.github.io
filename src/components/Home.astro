@@ -34,7 +34,7 @@ const otherHref = other === 'pt' ? '/pt/' : '/';
 <main class="page">
   <article class="hero" aria-labelledby="name">
     <div class="copy">
-      <h1 id="name">Danilo<br />Sambugaro</h1>
+      <h1 id="name">Danilo<br /><span class="surname">Sambugaro</span></h1>
       <p class="role">{t.role}</p>
       <p class="country mono"><span class="power" aria-hidden="true"></span>{t.country}</p>
       <p class="intro">{t.intro}</p>
@@ -51,16 +51,16 @@ const otherHref = other === 'pt' ? '/pt/' : '/';
         </a>
       </nav>
     </div>
-    <figure class="portrait">
+    <button class="portrait" type="button" aria-pressed="false" aria-label={t.joy}>
       <Image
         src={avatar}
-        alt={person.name}
+        alt=""
         widths={[320, 640]}
         sizes="(min-width: 50rem) 22rem, 70vw"
         loading="eager"
         fetchpriority="high"
       />
-    </figure>
+    </button>
   </article>
 </main>
 
@@ -88,6 +88,80 @@ const otherHref = other === 'pt' ? '/pt/' : '/';
   });
   media.addEventListener('change', sync);
   sync();
+
+  // Easter egg: clicking the portrait spins it, colours it and turns on party mode.
+  const portrait = document.querySelector<HTMLButtonElement>('.portrait');
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const confettiColors = ['#e96a26', '#f5c518', '#2b59c3', '#2a9d8f', '#e4577b'];
+
+  const confetti = (from: DOMRect) => {
+    const canvas = document.createElement('canvas');
+    canvas.className = 'confetti';
+    canvas.setAttribute('aria-hidden', 'true');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = innerWidth * dpr;
+    canvas.height = innerHeight * dpr;
+    document.body.append(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return canvas.remove();
+    ctx.scale(dpr, dpr);
+
+    const cx = from.left + from.width / 2;
+    const cy = from.top + from.height / 2;
+    const pieces = Array.from({ length: 140 }, () => {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * 9;
+      return {
+        x: cx,
+        y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 6,
+        w: 5 + Math.random() * 6,
+        h: 8 + Math.random() * 8,
+        r: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.4,
+        color: confettiColors[(Math.random() * confettiColors.length) | 0],
+      };
+    });
+
+    const start = performance.now();
+    const duration = 2200;
+    const frame = (now: number) => {
+      const t = now - start;
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - duration * 0.6) / (duration * 0.4));
+      for (const p of pieces) {
+        p.vx *= 0.985;
+        p.vy = p.vy * 0.985 + 0.32;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.r += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r * 2)));
+        ctx.restore();
+      }
+      if (t < duration) requestAnimationFrame(frame);
+      else canvas.remove();
+    };
+    requestAnimationFrame(frame);
+  };
+
+  portrait?.addEventListener('click', () => {
+    const on = root.dataset.joy !== 'on';
+    if (on) root.dataset.joy = 'on';
+    else delete root.dataset.joy;
+    portrait.setAttribute('aria-pressed', String(on));
+
+    if (calm.matches) return;
+    portrait.classList.remove('spin');
+    void portrait.offsetWidth; // restart the animation on repeated clicks
+    portrait.classList.add('spin');
+    if (on) confetti(portrait.getBoundingClientRect());
+  });
+  portrait?.addEventListener('animationend', () => portrait.classList.remove('spin'));
 </script>
 
 <style>
@@ -171,6 +245,12 @@ const otherHref = other === 'pt' ? '/pt/' : '/';
     line-height: 0.95;
     letter-spacing: -0.04em;
   }
+  .surname {
+    transition: color 600ms var(--ease-out);
+  }
+  :global(:root[data-joy='on']) .surname {
+    color: var(--name-2);
+  }
   .role {
     margin-top: var(--s-6);
     font-size: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
@@ -244,9 +324,17 @@ const otherHref = other === 'pt' ? '/pt/' : '/';
     }
   }
 
-  /* Portrait: grayscale, colour on hover. Touch screens see it in colour. */
+  /* Portrait: grayscale. Clicking it (easter egg) spins it and turns on party mode. */
   .portrait {
+    display: block;
     width: min(100%, 18rem);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius);
+    background: none;
+    cursor: pointer;
+    perspective: 900px;
+    -webkit-tap-highlight-color: transparent;
   }
   @media (min-width: 50rem) {
     .portrait {
@@ -258,15 +346,22 @@ const otherHref = other === 'pt' ? '/pt/' : '/';
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: var(--radius);
+    filter: grayscale(1) contrast(1.05);
+    transition:
+      filter 500ms var(--ease-out) 250ms,
+      border-radius 500ms var(--ease-out);
   }
-  @media (hover: hover) {
-    .portrait img {
-      filter: grayscale(1) contrast(1.05);
-      transition: filter 400ms var(--ease-out);
+  .portrait.spin img {
+    animation: spin 900ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  @keyframes spin {
+    to {
+      transform: rotateY(360deg);
     }
-    .portrait:hover img {
-      filter: none;
-    }
+  }
+  :global(:root[data-joy='on']) .portrait img {
+    filter: saturate(1.15);
+    border-radius: 1.25rem;
   }
 
   @media (prefers-reduced-motion: reduce) {

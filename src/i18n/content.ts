@@ -22,6 +22,7 @@ export type Copy = {
   intro: string;
   linksLabel: string;
   newTab: string;
+  joy: string;
 };
 
 const en: Copy = {
@@ -40,6 +41,7 @@ const en: Copy = {
     'I’m a backend developer building services and APIs since 2019. I take a product need, shape the backend behind it and keep it running in production, working alongside AI agents with clear specs and checks at every step.',
   linksLabel: 'Find me online',
   newTab: 'opens in a new tab',
+  joy: 'Party mode',
 };
 
 const pt: Copy = {
@@ -58,6 +60,7 @@ const pt: Copy = {
     'Sou desenvolvedor backend e construo serviços e APIs desde 2019. Pego uma necessidade de produto, desenho o backend por trás dela e mantenho tudo rodando em produção, trabalhando junto com agentes de IA, com specs claras e verificação em cada etapa.',
   linksLabel: 'Onde me encontrar',
   newTab: 'abre em nova aba',
+  joy: 'Modo festa',
 };
 
 export const copy: Record<Lang, Copy> = { en, pt };

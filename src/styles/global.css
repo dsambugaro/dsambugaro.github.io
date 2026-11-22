@@ -72,6 +72,52 @@
   --btn-hover: #d6d4ce;
 }
 
+/* Party mode (easter egg, toggled by clicking the portrait): warmer ground,
+   more colour. Same structure, only the tokens change. */
+:root[data-joy='on'] {
+  --bg: #fff3dd;
+  --surface: #ffe6bd;
+  --ink: #1c1917;
+  --ink-2: #44372b;
+  --muted: #6b5743;
+  --line: #efc98a;
+  --accent: #e4572e;
+  --btn-bg: #2b59c3;
+  --btn-fg: #ffffff;
+  --btn-hover: #234aa3;
+  --name-2: #c2410c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-joy='on']:not([data-theme='light']) {
+    --bg: #13263a;
+    --surface: #1b3350;
+    --ink: #fdf6ea;
+    --ink-2: #e3d8c6;
+    --muted: #b9ab95;
+    --line: #2f4a6b;
+    --accent: #ff9f5a;
+    --btn-bg: #f5c518;
+    --btn-fg: #1c1917;
+    --btn-hover: #ffd84d;
+    --name-2: #ffb27a;
+  }
+}
+
+:root[data-joy='on'][data-theme='dark'] {
+  --bg: #13263a;
+  --surface: #1b3350;
+  --ink: #fdf6ea;
+  --ink-2: #e3d8c6;
+  --muted: #b9ab95;
+  --line: #2f4a6b;
+  --accent: #ff9f5a;
+  --btn-bg: #f5c518;
+  --btn-fg: #1c1917;
+  --btn-hover: #ffd84d;
+  --name-2: #ffb27a;
+}
+
 *,
 *::before,
 *::after {
@@ -105,6 +151,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
   overflow-wrap: break-word;
+  transition:
+    background-color 600ms var(--ease-out),
+    color 600ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
 }
 
 h1,
@@ -222,8 +286,9 @@ a {
 }
 
 .btn-primary {
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--btn-bg, var(--ink));
+  border-color: var(--btn-bg, var(--ink));
+  color: var(--btn-fg, var(--bg));
 }
 
 .btn-secondary {
