@@ -9,12 +9,24 @@ export const person = {
   github: 'https://github.com/dsambugaro',
   linkedin: 'https://www.linkedin.com/in/dsambugaro/',
   site: 'https://dsambugaro.github.io',
+  // Used in the JSON-LD Person (knowsAbout). Topics, not tools.
+  knowsAbout: [
+    'Software engineering',
+    'Backend development',
+    'API design',
+    'Microservices',
+    'Databases',
+    'AI engineering',
+    'Agentic software development',
+    'Spec engineering',
+    'Harness engineering',
+  ],
 };
 
 export type Copy = {
   htmlLang: string;
   ogLocale: string;
-  meta: { title: string; description: string };
+  meta: { title: string; description: string; keywords: string[] };
   langSwitch: { label: string; short: string };
   theme: { toDark: string; toLight: string };
   role: string;
@@ -29,9 +41,24 @@ const en: Copy = {
   htmlLang: 'en',
   ogLocale: 'en_US',
   meta: {
-    title: 'Danilo Sambugaro, Senior Software Engineer',
+    title: 'Danilo Sambugaro · Senior Software Engineer, Backend & AI',
     description:
-      'Backend developer shipping services and APIs since 2019, from a product need to a system running in production, working alongside AI agents.',
+      'Senior backend developer from Brazil, shipping services and APIs since 2019, with AI engineering: coding agents, specs, harnesses and feedback loops.',
+    keywords: [
+      'Danilo Sambugaro',
+      'senior software engineer',
+      'backend developer',
+      'backend engineer',
+      'software developer',
+      'API development',
+      'microservices',
+      'AI engineering',
+      'agentic development',
+      'AI coding agents',
+      'spec engineering',
+      'harness engineering',
+      'Brazil',
+    ],
   },
   langSwitch: { label: 'Ler em português', short: 'PT' },
   theme: { toDark: 'Switch to dark theme', toLight: 'Switch to light theme' },
@@ -48,9 +75,24 @@ const pt: Copy = {
   htmlLang: 'pt-BR',
   ogLocale: 'pt_BR',
   meta: {
-    title: 'Danilo Sambugaro, Senior Software Engineer',
+    title: 'Danilo Sambugaro · Senior Software Engineer, Backend e IA',
     description:
-      'Desenvolvedor backend que constrói serviços e APIs desde 2019, da necessidade de produto ao sistema rodando em produção, junto com agentes de IA.',
+      'Desenvolvedor backend sênior no Brasil, colocando serviços e APIs em produção desde 2019, com engenharia de IA: agentes, specs, harnesses e loops de feedback.',
+    keywords: [
+      'Danilo Sambugaro',
+      'engenheiro de software sênior',
+      'desenvolvedor backend',
+      'engenheiro backend',
+      'desenvolvedor de software',
+      'desenvolvimento de APIs',
+      'microsserviços',
+      'engenharia de IA',
+      'desenvolvimento com agentes de IA',
+      'agentes de IA',
+      'spec engineering',
+      'harness engineering',
+      'Brasil',
+    ],
   },
   langSwitch: { label: 'Read in English', short: 'EN' },
   theme: { toDark: 'Mudar para o tema escuro', toLight: 'Mudar para o tema claro' },

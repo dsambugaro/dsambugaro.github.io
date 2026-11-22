@@ -298,16 +298,21 @@ const [introBefore, introAfter] = t.intro.split('{years}');
   }
   .hero {
     width: 100%;
-    max-width: 68rem;
+    max-width: 80rem;
     margin-inline: auto;
     display: grid;
     gap: var(--s-12);
   }
   @media (min-width: 50rem) {
     .hero {
-      grid-template-columns: minmax(0, 1fr) 22rem;
+      /* photo on the left edge, name and text on the right edge, open space between */
+      grid-template-columns: 22rem minmax(0, 36rem);
+      justify-content: space-between;
       align-items: center;
       gap: var(--s-16);
+    }
+    .portrait {
+      order: -1;
     }
   }
 

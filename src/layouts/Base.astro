@@ -3,6 +3,8 @@ import '@fontsource/schibsted-grotesk/latin-400.css';
 import '@fontsource/schibsted-grotesk/latin-500.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import '../styles/global.css';
+import grotesk400 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-400-normal.woff2?url';
+import grotesk500 from '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-500-normal.woff2?url';
 import { copy, person, type Lang } from '../i18n/content';
 
 interface Props {
@@ -24,14 +26,25 @@ const ogImage = new URL(lang === 'pt' ? '/og-pt.png' : '/og-en.png', site).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: person.name,
-  alternateName: person.fullName,
-  jobTitle: 'Senior Software Engineer',
-  url: person.site,
-  image: new URL('/avatar.jpg', site).href,
-  address: { '@type': 'PostalAddress', addressCountry: 'BR' },
-  sameAs: [person.github, person.linkedin],
+  '@type': 'ProfilePage',
+  url: canonical,
+  name: title,
+  description,
+  inLanguage: t.htmlLang,
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${person.site}/#person`,
+    name: person.name,
+    alternateName: [person.fullName, 'dsambugaro'],
+    jobTitle: 'Senior Software Engineer',
+    description,
+    url: person.site,
+    image: new URL('/avatar.jpg', site).href,
+    address: { '@type': 'PostalAddress', addressCountry: 'BR' },
+    knowsAbout: person.knowsAbout,
+    knowsLanguage: ['pt-BR', 'en'],
+    sameAs: [person.github, person.linkedin],
+  },
 };
 ---
 
@@ -42,7 +55,11 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={t.meta.keywords.join(', ')} />
+    <meta name="author" content={person.name} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="preload" href={grotesk500} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={grotesk400} as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={canonical} />
     {
       !noindex && (
