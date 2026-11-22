@@ -41,7 +41,7 @@ const en: Copy = {
   htmlLang: 'en',
   ogLocale: 'en_US',
   meta: {
-    title: 'Danilo Sambugaro · Senior Software Engineer, Backend & AI',
+    title: 'Danilo Sambugaro · Software Engineer',
     description:
       'Senior backend developer from Brazil, shipping services and APIs since 2019, with AI engineering: coding agents, specs, harnesses and feedback loops.',
     keywords: [
@@ -75,7 +75,7 @@ const pt: Copy = {
   htmlLang: 'pt-BR',
   ogLocale: 'pt_BR',
   meta: {
-    title: 'Danilo Sambugaro · Senior Software Engineer, Backend e IA',
+    title: 'Danilo Sambugaro · Software Engineer',
     description:
       'Desenvolvedor backend sênior no Brasil, colocando serviços e APIs em produção desde 2019, com engenharia de IA: agentes, specs, harnesses e loops de feedback.',
     keywords: [
