@@ -30,15 +30,8 @@ const jsonLd = {
   jobTitle: 'Senior Software Engineer',
   worksFor: { '@type': 'Organization', name: 'Tractian' },
   url: person.site,
-  email: `mailto:${person.email}`,
   image: new URL('/avatar.jpg', site).href,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Campo Mourão',
-    addressRegion: 'PR',
-    addressCountry: 'BR',
-  },
-  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Universidade Tecnológica Federal do Paraná' },
+  address: { '@type': 'PostalAddress', addressCountry: 'BR' },
   sameAs: [person.github, person.linkedin],
 };
 ---

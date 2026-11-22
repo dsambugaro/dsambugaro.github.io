@@ -1,8 +1,8 @@
 // Renders static assets from the built site with headless Chromium:
-//   public/cv/*.pdf, public/og-*.png, favicon PNGs.
+//   public/og-*.png and favicon PNGs.
 // Run with `npm run assets` (builds first). Outputs are committed, so CI never runs this.
 import { spawn } from 'node:child_process';
-import { mkdir, readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 
@@ -22,21 +22,9 @@ await new Promise((resolve, reject) => {
 
 const browser = await chromium.launch();
 try {
-  await mkdir('public/cv', { recursive: true });
   const page = await browser.newPage();
 
-  for (const [lang, file] of [
-    ['en', 'danilo-sambugaro-cv-en.pdf'],
-    ['pt', 'danilo-sambugaro-cv-pt-br.pdf'],
-  ]) {
-    await page.goto(`${BASE}/print/cv-${lang}/`, { waitUntil: 'networkidle' });
-    await page.emulateMedia({ media: 'print', colorScheme: 'light' });
-    await page.evaluate(() => document.fonts.ready);
-    await page.pdf({ path: `public/cv/${file}`, format: 'A4', printBackground: true, preferCSSPageSize: true });
-    console.log(`wrote public/cv/${file}`);
-  }
-
-  await page.emulateMedia({ media: 'screen', colorScheme: 'light' });
+  await page.emulateMedia({ colorScheme: 'light' });
   await page.setViewportSize({ width: 1200, height: 630 });
   for (const lang of ['en', 'pt']) {
     await page.goto(`${BASE}/print/og-${lang}/`, { waitUntil: 'networkidle' });
