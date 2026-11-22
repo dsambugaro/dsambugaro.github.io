@@ -1,18 +1,21 @@
-/* Direction: dieter-rams-braun. Paper ground, one grotesk, sharp corners,
-   no shadows, one signal-orange dot (the "power" light) and nothing else in colour. */
+/* Default: warm, colourful palette. Clicking the portrait (easter egg) switches
+   to "gray" mood: the original paper-and-ink Braun palette, photo in grayscale. */
 
 :root {
   color-scheme: light;
 
   /* Colour, light */
-  --bg: #f5f4f0;
-  --surface: #ebe9e3;
-  --ink: #191919;
-  --ink-2: #3f3e3b;
-  --muted: #5c5b58;
-  --line: #d3d0c8;
-  --accent: #e96a26;
-  --btn-hover: #383735;
+  --bg: #fff3dd;
+  --surface: #ffe6bd;
+  --ink: #1c1917;
+  --ink-2: #44372b;
+  --muted: #6b5743;
+  --line: #efc98a;
+  --accent: #e4572e;
+  --btn-bg: #2b59c3;
+  --btn-fg: #ffffff;
+  --btn-hover: #234aa3;
+  --name-2: #c2410c;
 
   /* Type */
   --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
@@ -49,47 +52,6 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: #161615;
-    --surface: #201f1e;
-    --ink: #edebe6;
-    --ink-2: #cfcdc7;
-    --muted: #a3a19b;
-    --line: #363532;
-    --accent: #f07a38;
-    --btn-hover: #d6d4ce;
-  }
-}
-
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #161615;
-  --surface: #201f1e;
-  --ink: #edebe6;
-  --ink-2: #cfcdc7;
-  --muted: #a3a19b;
-  --line: #363532;
-  --accent: #f07a38;
-  --btn-hover: #d6d4ce;
-}
-
-/* Party mode (easter egg, toggled by clicking the portrait): warmer ground,
-   more colour. Same structure, only the tokens change. */
-:root[data-joy='on'] {
-  --bg: #fff3dd;
-  --surface: #ffe6bd;
-  --ink: #1c1917;
-  --ink-2: #44372b;
-  --muted: #6b5743;
-  --line: #efc98a;
-  --accent: #e4572e;
-  --btn-bg: #2b59c3;
-  --btn-fg: #ffffff;
-  --btn-hover: #234aa3;
-  --name-2: #c2410c;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root[data-joy='on']:not([data-theme='light']) {
     --bg: #13263a;
     --surface: #1b3350;
     --ink: #fdf6ea;
@@ -104,7 +66,8 @@
   }
 }
 
-:root[data-joy='on'][data-theme='dark'] {
+:root[data-theme='dark'] {
+  color-scheme: dark;
   --bg: #13263a;
   --surface: #1b3350;
   --ink: #fdf6ea;
@@ -116,6 +79,51 @@
   --btn-fg: #1c1917;
   --btn-hover: #ffd84d;
   --name-2: #ffb27a;
+}
+
+/* Gray mood (easter egg). */
+:root[data-mood='gray'] {
+  --bg: #f5f4f0;
+  --surface: #ebe9e3;
+  --ink: #191919;
+  --ink-2: #3f3e3b;
+  --muted: #5c5b58;
+  --line: #d3d0c8;
+  --accent: #8a8885;
+  --btn-bg: #191919;
+  --btn-fg: #f5f4f0;
+  --btn-hover: #383735;
+  --name-2: #191919;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-mood='gray']:not([data-theme='light']) {
+    --bg: #161615;
+    --surface: #201f1e;
+    --ink: #edebe6;
+    --ink-2: #cfcdc7;
+    --muted: #a3a19b;
+    --line: #363532;
+    --accent: #7d7b77;
+    --btn-bg: #edebe6;
+    --btn-fg: #161615;
+    --btn-hover: #d6d4ce;
+    --name-2: #edebe6;
+  }
+}
+
+:root[data-mood='gray'][data-theme='dark'] {
+  --bg: #161615;
+  --surface: #201f1e;
+  --ink: #edebe6;
+  --ink-2: #cfcdc7;
+  --muted: #a3a19b;
+  --line: #363532;
+  --accent: #7d7b77;
+  --btn-bg: #edebe6;
+  --btn-fg: #161615;
+  --btn-hover: #d6d4ce;
+  --name-2: #edebe6;
 }
 
 *,
@@ -162,7 +170,8 @@ body {
   }
 }
 
-.confetti {
+.confetti,
+.rain {
   position: fixed;
   inset: 0;
   width: 100%;
