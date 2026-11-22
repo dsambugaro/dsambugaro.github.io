@@ -30,14 +30,14 @@ const en: Copy = {
   meta: {
     title: 'Danilo Sambugaro, Senior Software Engineer',
     description:
-      'Senior Software Engineer at Tractian. Backend systems in Go and PostgreSQL, and the specs, harnesses and feedback loops that AI coding agents work inside.',
+      'Backend developer shipping production software since 2019. Go services on PostgreSQL, and the specs, harnesses and feedback loops that keep AI agents honest.',
   },
   langSwitch: { label: 'Ler em português', short: 'PT' },
   theme: { toDark: 'Switch to dark theme', toLight: 'Switch to light theme' },
   role: 'Senior Software Engineer',
   country: 'Brazil',
   intro:
-    'Backend engineer at Tractian since 2021. I build systems in Go and PostgreSQL, and the specs, harnesses and feedback loops that AI coding agents work inside.',
+    'I’m a backend developer shipping production software since 2019. Most days that means Go services on PostgreSQL, and the specs, harnesses and feedback loops that keep AI agents honest while they help me build them.',
   linksLabel: 'Find me online',
   newTab: 'opens in a new tab',
 };
@@ -48,14 +48,14 @@ const pt: Copy = {
   meta: {
     title: 'Danilo Sambugaro, Senior Software Engineer',
     description:
-      'Senior Software Engineer na Tractian. Sistemas de backend em Go e PostgreSQL, e as specs, harnesses e loops de feedback em que agentes de IA trabalham.',
+      'Desenvolvedor backend com software em produção desde 2019. Serviços em Go sobre PostgreSQL, e as specs, harnesses e loops de feedback que mantêm agentes de IA no trilho.',
   },
   langSwitch: { label: 'Read in English', short: 'EN' },
   theme: { toDark: 'Mudar para o tema escuro', toLight: 'Mudar para o tema claro' },
   role: 'Senior Software Engineer',
   country: 'Brasil',
   intro:
-    'Engenheiro de backend na Tractian desde 2021. Construo sistemas em Go e PostgreSQL, e as specs, harnesses e loops de feedback em que agentes de IA trabalham.',
+    'Sou desenvolvedor backend e coloco software em produção desde 2019. No dia a dia, isso quer dizer serviços em Go sobre PostgreSQL, e as specs, harnesses e loops de feedback que mantêm agentes de IA no trilho enquanto me ajudam a construí-los.',
   linksLabel: 'Onde me encontrar',
   newTab: 'abre em nova aba',
 };
