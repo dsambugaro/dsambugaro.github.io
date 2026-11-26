@@ -12,7 +12,13 @@ const { lang } = Astro.props;
 const t = copy[lang];
 const other: Lang = lang === 'en' ? 'pt' : 'en';
 const otherHref = other === 'pt' ? '/pt/' : '/';
-const [introBefore, introAfter] = t.intro.split('{years}');
+const [first, ...rest] = t.intro;
+const [introBefore, introAfter] = first.split('{years}');
+const links = [
+  { name: 'LinkedIn', handle: '/in/dsambugaro', href: person.linkedin, icon: 'linkedin' as const, pos: 'li' },
+  { name: 'GitHub', handle: '@dsambugaro', href: person.github, icon: 'github' as const, pos: 'gh' },
+];
+const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 ---
 
 <div class="controls">
@@ -33,45 +39,95 @@ const [introBefore, introAfter] = t.intro.split('{years}');
 </div>
 
 <main class="page">
-  <article class="hero" aria-labelledby="name">
-    <div class="copy">
-      <h1 id="name">Danilo<br /><span class="surname">Sambugaro</span></h1>
-      <p class="role">{t.role}</p>
-      <p class="country mono"><span class="power" aria-hidden="true"></span>{t.country}</p>
-      <p class="intro">
+  <canvas class="graph" aria-hidden="true"></canvas>
+  <!-- Area icons. The graph script scatters them over the graph. -->
+  <div class="areas" aria-hidden="true">
+  {
+    areas.map(([icon, label]) => (
+      <span class={`node node-area area-${icon}`} aria-hidden="true">
+        <span class="ring">
+          <Icon name={icon} />
+        </span>
+        <span class="label mono">{label}</span>
+      </span>
+    ))
+  }
+  </div>
+
+  <article class="copy" aria-labelledby="name">
+    <div class="code mono" aria-hidden="true">
+      <div><span class="k">const</span> <span class="v">career</span> <span class="p">=</span> <span class="k">await</span> <span class="f">build</span><span class="p">(</span><span class="v">systems</span><span class="p">)</span></div>
+      <div class="indent"><span class="p">.</span><span class="f">then</span><span class="p">(</span><span class="v">scale</span><span class="p">)</span></div>
+      <div class="indent"><span class="p">.</span><span class="f">catch</span><span class="p">(</span><span class="v">learn</span><span class="p">);</span><span class="cursor"></span></div>
+    </div>
+
+    <h1 id="name">Danilo <span class="surname">Sambugaro</span></h1>
+    <p class="role mono">
+      <span class="title"
+        >{t.role.split(' ').map((w, i) => (
+          <>
+            {i > 0 && ' '}
+            <span class="word">{w}</span>
+          </>
+        ))}</span
+      ><span class="country">{t.country}</span>
+    </p>
+    <div class="intro">
+      <p>
         {introBefore}<span
           class="years"
           data-start-year={careerStart.year}
           data-start-month={careerStart.month}>{fullYearsSince()}</span
         >{introAfter}
       </p>
-      <nav class="links" aria-label={t.linksLabel}>
-        <a class="btn btn-primary" href={person.linkedin} target="_blank" rel="me noopener noreferrer">
-          <Icon name="linkedin" />LinkedIn<span class="visually-hidden"> ({t.newTab})</span>
-          <Icon name="arrow-up-right" />
-        </a>
-        <a class="text-link" href={person.github} target="_blank" rel="me noopener noreferrer">
-          <Icon name="github" /><span class="label">GitHub</span><span class="visually-hidden">
-            ({t.newTab})</span
-          >
-          <Icon name="arrow-up-right" />
-        </a>
-      </nav>
+      {rest.map((p) => <p>{p}</p>)}
     </div>
-    <button class="portrait" type="button" aria-pressed="false" aria-label={t.mood}>
-      <Image
-        src={avatar}
-        alt=""
-        widths={[320, 640]}
-        sizes="(min-width: 50rem) 22rem, 70vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-    </button>
+    <p class="tags mono">
+      {t.tags.map((tag, i) => (
+        <>
+          {i > 0 && <span class="slash" aria-hidden="true">/</span>}
+          <span>{tag}</span>
+        </>
+      ))}
+    </p>
   </article>
+
+  <div class="stage">
+    <button class="node node-avatar" type="button" aria-label={t.portrait}>
+      <span class="ring">
+        <Image
+          src={avatar}
+          alt=""
+          widths={[256, 512]}
+          sizes="13rem"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </span>
+    </button>
+    <nav aria-label={t.linksLabel}>
+      {
+        links.map((l) => (
+          <a class={`node node-link node-${l.pos}`} data-tone="lime" href={l.href} target="_blank" rel="me noopener noreferrer">
+            <span class="ring">
+              <Icon name={l.icon} />
+            </span>
+            <span class="label mono">
+              <span class="name">{l.name}</span>
+              <span class="handle">{l.handle}</span>
+              <span class="visually-hidden"> ({t.newTab})</span>
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+  </div>
 </main>
 
 <script>
+  import { startGraph } from '../scripts/graph';
+  import { smokeAndSparks, sparksOnly } from '../scripts/breakdown';
+
   const btn = document.querySelector<HTMLButtonElement>('.theme-toggle');
   const root = document.documentElement;
   const media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -107,138 +163,109 @@ const [introBefore, introAfter] = t.intro.split('{years}');
     years.textContent = String(n);
   }
 
-  // Easter egg: clicking the portrait spins it and switches to a gray, rainy mood.
-  // Clicking again brings the colour back with confetti.
-  const portrait = document.querySelector<HTMLButtonElement>('.portrait');
+  // The graph. The portrait and the links are nodes of it.
+  const page = document.querySelector<HTMLElement>('.page');
+  const canvas = document.querySelector<HTMLCanvasElement>('.graph');
+  const text = document.querySelector<HTMLElement>('.copy');
+  const portrait = document.querySelector<HTMLButtonElement>('.node-avatar');
+  const specials = [portrait, ...document.querySelectorAll<HTMLElement>('.node-link, .node-area')].filter(
+    (el): el is HTMLElement => !!el,
+  );
+  const graph = page && canvas && text ? startGraph({ canvas, root: page, text, specials }) : null;
+
+  // Easter egg: clicking the portrait makes it pulse, sends a colour wave through the
+  // graph and switches the accent colour: lime, cyan, magenta. The links take the new
+  // colour when the wave reaches them.
+  //
+  // Click it BREAK_CLICKS times within BREAK_WINDOW ms and it "breaks": it shakes and
+  // smokes, sparks fly, and the graph and the coloured text keep all three colours
+  // (in a random order) until the page is reloaded.
+  const BREAK_CLICKS = 10;
+  const BREAK_WINDOW = 2500;
+  const accents = ['lime', 'cyan', 'magenta'];
   const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const confettiColors = ['#e96a26', '#f5c518', '#2b59c3', '#2a9d8f', '#e4577b'];
+  const clicks: number[] = [];
+  let broken = false;
 
-  type Piece = { x: number; y: number; vx: number; vy: number; w: number; h: number; r: number; vr: number; color: string };
+  // The links start with whatever accent the page loaded with.
+  document
+    .querySelectorAll<HTMLElement>('.node-link')
+    .forEach((el) => (el.dataset.tone = root.dataset.accent ?? 'lime'));
 
-  const play = (
-    className: string,
-    duration: number,
-    make: (w: number, h: number) => Piece[],
-    step: (p: Piece) => void,
-    draw: (ctx: CanvasRenderingContext2D, p: Piece) => void,
-  ) => {
-    const canvas = document.createElement('canvas');
-    canvas.className = className;
-    canvas.setAttribute('aria-hidden', 'true');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = innerWidth * dpr;
-    canvas.height = innerHeight * dpr;
-    document.body.append(canvas);
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return canvas.remove();
-    ctx.scale(dpr, dpr);
-    const pieces = make(innerWidth, innerHeight);
-    const start = performance.now();
-    const frame = (now: number) => {
-      const t = now - start;
-      ctx.clearRect(0, 0, innerWidth, innerHeight);
-      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - duration * 0.6) / (duration * 0.4));
-      for (const p of pieces) {
-        step(p);
-        draw(ctx, p);
-      }
-      if (t < duration) requestAnimationFrame(frame);
-      else canvas.remove();
-    };
-    requestAnimationFrame(frame);
+  const tones = (dark: boolean) =>
+    accents.map((a) => getComputedStyle(root).getPropertyValue(`--tone-${a}`).trim() || (dark ? '#fff' : '#000'));
+
+  const restart = (el: Element, className: string) => {
+    el.classList.remove(className);
+    void (el as HTMLElement).offsetWidth; // restart the animation on repeated clicks
+    el.classList.add(className);
   };
 
-  const confetti = (from: DOMRect) =>
-    play(
-      'confetti',
-      2200,
-      () =>
-        Array.from({ length: 140 }, () => {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = 4 + Math.random() * 9;
-          return {
-            x: from.left + from.width / 2,
-            y: from.top + from.height / 2,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed - 6,
-            w: 5 + Math.random() * 6,
-            h: 8 + Math.random() * 8,
-            r: Math.random() * Math.PI,
-            vr: (Math.random() - 0.5) * 0.4,
-            color: confettiColors[(Math.random() * confettiColors.length) | 0],
-          };
-        }),
-      (p) => {
-        p.vx *= 0.985;
-        p.vy = p.vy * 0.985 + 0.32;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.r += p.vr;
-      },
-      (ctx, p) => {
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.r);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.r * 2)));
-        ctx.restore();
-      },
-    );
+  const shuffled = () => [...accents].sort(() => Math.random() - 0.5);
 
-  // A short, light rain: thin slanted streaks falling over the whole page.
-  const rain = () => {
-    const dark = getComputedStyle(root).colorScheme === 'dark';
-    const color = dark ? 'rgba(190, 196, 204, 0.55)' : 'rgba(90, 100, 112, 0.45)';
-    play(
-      'rain',
-      2600,
-      (w, h) =>
-        Array.from({ length: 110 }, () => ({
-          x: Math.random() * (w + 120) - 60,
-          y: -Math.random() * h,
-          vx: -1.2,
-          vy: 11 + Math.random() * 7,
-          w: 1,
-          h: 12 + Math.random() * 14,
-          r: 0,
-          vr: 0,
-          color,
-        })),
-      (p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-      },
-      (ctx, p) => {
-        ctx.strokeStyle = p.color;
-        ctx.lineWidth = p.w;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x + p.vx * (p.h / p.vy), p.y + p.h);
-        ctx.stroke();
-      },
-    );
+  const breakDown = () => {
+    broken = true;
+    root.dataset.broken = '';
+    graph?.freeze();
+    // One colour per word of the role, and per coloured bit of the code line.
+    const paint = (els: HTMLElement[], prop: 'color' | 'background') => {
+      const order = shuffled();
+      els.forEach((el, i) => (el.style[prop] = `var(--text-${order[i % order.length]})`));
+    };
+    paint([...document.querySelectorAll<HTMLElement>('.role .word')], 'color');
+    const code = [...document.querySelectorAll<HTMLElement>('.code .k')];
+    const cursor = document.querySelector<HTMLElement>('.cursor');
+    const order = shuffled();
+    code.forEach((el, i) => (el.style.color = `var(--text-${order[i]})`));
+    if (cursor) cursor.style.background = `var(--text-${order[code.length % 3]})`;
+    if (!portrait || calm.matches) return;
+    portrait.classList.remove('pulse');
+    restart(portrait, 'broken');
+    smokeAndSparks(portrait.querySelector('.ring') ?? portrait, tones(isDark()), isDark());
   };
 
   portrait?.addEventListener('click', () => {
-    const gray = root.dataset.mood !== 'gray';
-    if (gray) root.dataset.mood = 'gray';
-    else delete root.dataset.mood;
-    portrait.setAttribute('aria-pressed', String(gray));
+    if (broken) {
+      // Already broken: only a few sparks.
+      if (!calm.matches) {
+        restart(portrait, 'broken');
+        sparksOnly(portrait.querySelector('.ring') ?? portrait, tones(isDark()), isDark());
+      }
+      return;
+    }
+    const now = performance.now();
+    clicks.push(now);
+    while (clicks.length && clicks[0] < now - BREAK_WINDOW) clicks.shift();
+    if (clicks.length >= BREAK_CLICKS) return breakDown();
 
-    if (calm.matches) return;
-    portrait.classList.remove('spin');
-    void portrait.offsetWidth; // restart the animation on repeated clicks
-    portrait.classList.add('spin');
-    if (gray) rain();
-    else confetti(portrait.getBoundingClientRect());
+    const current = accents.indexOf(root.dataset.accent ?? 'lime');
+    const next = accents[(current + 1) % accents.length];
+    if (next === 'lime') delete root.dataset.accent;
+    else root.dataset.accent = next;
+    graph?.pulse(next);
+    if (!calm.matches) restart(portrait, 'pulse');
   });
-  portrait?.addEventListener('animationend', () => portrait.classList.remove('spin'));
+  portrait?.addEventListener('animationend', (e) => {
+    if (e.animationName.includes('ripple')) portrait.classList.remove('pulse');
+    if (e.animationName.includes('shake')) portrait.classList.remove('broken');
+  });
+
+  // Enter or Space anywhere on the page does the same as clicking the portrait,
+  // unless focus is on something that already uses those keys.
+  document.addEventListener('keydown', (e) => {
+    if ((e.key !== 'Enter' && e.key !== ' ') || e.repeat || e.altKey || e.ctrlKey || e.metaKey) return;
+    const el = e.target as HTMLElement | null;
+    if (el?.closest('a, button, input, textarea, select, summary, [contenteditable]')) return;
+    e.preventDefault(); // Space would scroll the page
+    portrait?.click();
+  });
 </script>
 
 <style>
   /* Controls */
   .controls {
     position: absolute;
+    z-index: 2;
     top: max(var(--s-4), env(safe-area-inset-top));
     right: max(var(--gutter), env(safe-area-inset-right));
     display: flex;
@@ -250,9 +277,9 @@ const [introBefore, introAfter] = t.intro.split('{years}');
     min-width: 44px;
     height: 44px;
     padding: 0 var(--s-2);
-    border: 1px solid var(--muted);
+    border: 1px solid var(--line);
     border-radius: var(--radius);
-    background: transparent;
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
     color: var(--ink-2);
     text-decoration: none;
     cursor: pointer;
@@ -287,161 +314,388 @@ const [introBefore, introAfter] = t.intro.split('{years}');
     }
   }
 
-  /* Page: one screen, content centred vertically. */
+  /* Page: one screen on desktop. Text on the left, graph on the right (like the
+     LinkedIn cover). Stacked on small screens, graph first. */
   .page {
+    position: relative;
+    overflow: hidden;
     min-height: 100vh;
     min-height: 100svh;
     display: grid;
-    align-items: center;
-    padding: var(--s-24) max(var(--gutter), env(safe-area-inset-right)) var(--s-16)
+    align-content: center;
+    gap: var(--s-8);
+    padding: var(--s-16) max(var(--gutter), env(safe-area-inset-right)) var(--s-12)
       max(var(--gutter), env(safe-area-inset-left));
   }
-  .hero {
+  .graph {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    max-width: 80rem;
-    margin-inline: auto;
-    display: grid;
-    gap: var(--s-12);
+    height: 100%;
+    pointer-events: none;
   }
-  @media (min-width: 50rem) {
-    .hero {
-      /* photo on the left edge, name and text on the right edge, open space between */
-      grid-template-columns: 22rem minmax(0, 36rem);
-      justify-content: space-between;
+  .copy,
+  /* The stage box sits over the area icons; only its nodes take the pointer, so
+     icons under its empty space still get hover. */
+  .stage {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .stage .node {
+    pointer-events: auto;
+  }
+  .stage {
+    order: -1;
+    height: 21rem;
+    --avatar: clamp(8.5rem, 34vw, 10rem);
+  }
+  @media (min-width: 56rem) {
+    .page {
+      grid-template-columns: minmax(0, 34rem) minmax(0, 60rem);
+      justify-content: center;
       align-items: center;
-      gap: var(--s-16);
+      gap: clamp(var(--s-16), 7vw, 10rem);
+      padding-block: var(--s-16);
     }
-    .portrait {
-      order: -1;
+    .stage {
+      order: 0;
+      height: clamp(26rem, 72svh, 44rem);
+      --avatar: clamp(10rem, 15vw, 13.5rem);
+    }
+  }
+
+  /* Code line, as on the cover */
+  .code {
+    font-size: clamp(0.875rem, 0.8rem + 0.35vw, 1.0625rem);
+    line-height: 1.6;
+    white-space: pre;
+    color: var(--ink-2);
+  }
+  .code .indent {
+    padding-left: 2ch;
+  }
+  .code .k {
+    color: var(--accent);
+  }
+  .code .f {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .code .p {
+    color: var(--muted);
+  }
+  .cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.15em;
+    margin-left: 0.15em;
+    vertical-align: -0.2em;
+    background: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
     }
   }
 
   h1 {
-    font-size: clamp(3.25rem, 1.6rem + 6.4vw, 6rem);
-    line-height: 0.95;
+    margin-top: var(--s-8);
+    font-size: clamp(2.75rem, 1.6rem + 4.4vw, 4.75rem);
+    line-height: 0.98;
     letter-spacing: -0.04em;
   }
   .surname {
-    color: var(--name-2);
-    transition: color 600ms var(--ease-out);
-  }
-  .role {
-    margin-top: var(--s-6);
-    font-size: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-  }
-  .country {
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
-    margin-top: var(--s-3);
-    color: var(--muted);
-  }
-  /* The single signal colour on the page. */
-  .power {
-    flex: none;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: power-on 120ms linear 350ms both;
-  }
-  @keyframes power-on {
-    from {
-      background: var(--line);
-    }
-  }
-  .intro {
-    margin-top: var(--s-8);
-    max-width: 34rem;
-    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
-    line-height: 1.55;
+    display: block;
     color: var(--ink-2);
   }
-
-  .links {
+  .role {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-4) var(--s-8);
-    margin-top: var(--s-8);
+    align-items: baseline;
+    gap: var(--s-1) var(--s-4);
+    margin-top: var(--s-6);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
-  .links :global(svg) {
+  .role .title {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .role .country {
+    color: var(--muted);
+  }
+  .intro {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-6);
+    max-width: 34rem;
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1) var(--s-3);
+    margin-top: var(--s-8);
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+  .tags .slash {
+    color: var(--line);
+  }
+
+  /* Graph nodes made of DOM elements. --x/--y place them in the stage; the graph
+     script adds a small drift through --dx/--dy. */
+  .node {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)));
+    color: var(--ink-2);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ring {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--bg);
+    transition:
+      border-color var(--dur-fast) linear,
+      color var(--dur-fast) linear,
+      box-shadow 200ms var(--ease-out);
+  }
+
+  .node-avatar {
+    --x: 30%;
+    --y: 50%;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+  }
+  .node-avatar .ring {
+    width: var(--avatar);
+    height: var(--avatar);
+    padding: 5px;
+    border: 2px solid var(--accent-graph);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-graph) 12%, transparent);
+  }
+  .node-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  /* Easter egg: a click makes the portrait pulse and sends a ring outwards. */
+  .node-avatar .ring {
+    position: relative;
+  }
+  .node-avatar .ring::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-graph);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .node-avatar.pulse .ring {
+    animation: pulse 520ms var(--ease-out);
+  }
+  .node-avatar.pulse .ring::after {
+    animation: ripple 900ms var(--ease-out);
+  }
+  @keyframes pulse {
+    30% {
+      transform: scale(0.94);
+    }
+    65% {
+      transform: scale(1.04);
+    }
+  }
+  /* Easter egg: the portrait breaks. It shakes and flickers. */
+  .node-avatar.broken .ring {
+    animation: shake 650ms linear;
+  }
+  @keyframes shake {
+    10% { transform: translate(-3px, 1px) rotate(-2deg); filter: brightness(1.4); }
+    20% { transform: translate(3px, -2px) rotate(2deg); filter: brightness(0.7); }
+    30% { transform: translate(-4px, 0) rotate(-1deg); filter: brightness(1.2); }
+    40% { transform: translate(4px, 2px) rotate(1.5deg); filter: brightness(0.8); }
+    55% { transform: translate(-2px, -1px) rotate(-1deg); filter: brightness(1.1); }
+    70% { transform: translate(2px, 1px) rotate(0.5deg); filter: none; }
+    85% { transform: translate(-1px, 0); }
+  }
+  @keyframes ripple {
+    from {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(1.45);
+    }
+  }
+
+  .node-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  /* Each link keeps its own colour (data-tone), set when a colour wave reaches it. */
+  .node-link {
+    --node-accent: var(--tone-lime);
+  }
+  .node-link[data-tone='cyan'] {
+    --node-accent: var(--tone-cyan);
+  }
+  .node-link[data-tone='magenta'] {
+    --node-accent: var(--tone-magenta);
+  }
+  .node-link .ring {
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 1.5px solid var(--node-accent);
+    color: var(--ink);
+  }
+  .node-link .ring :global(svg) {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+  /* The label hangs below the circle so the circle's centre stays on the graph. */
+  .node-link .label {
+    position: absolute;
+    top: calc(100% + var(--s-2));
+    display: grid;
+    justify-items: center;
+    padding: 0 var(--s-2);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    backdrop-filter: blur(3px);
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .node-link .name {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .node-link .handle {
+    color: var(--muted);
+  }
+  .node-li {
+    --x: 78%;
+    --y: 22%;
+  }
+  .node-gh {
+    --x: 60%;
+    --y: 72%;
+  }
+  @media (min-width: 56rem) {
+    .node-avatar {
+      --x: 46%;
+      --y: 50%;
+    }
+    .node-li {
+      --x: 90%;
+      --y: 16%;
+    }
+    .node-gh {
+      --x: 86%;
+      --y: 82%;
+    }
+  }
+  @media (hover: hover) {
+    .node-link:hover .ring {
+      color: var(--node-accent);
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--node-accent) 18%, transparent);
+    }
+    .node-avatar:hover .ring {
+      box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent-graph) 16%, transparent);
+    }
+  }
+  .node:focus-visible {
+    outline: none;
+  }
+  .node:focus-visible .ring {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  /* Area icons: gray, smaller and quieter than the links. The script sets --x/--y
+     (page pixels); until then, or when there is no room, they stay hidden. */
+  .areas {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .node-area {
+    visibility: hidden;
+    pointer-events: auto;
+    cursor: grab;
+  }
+  /* Set by the graph script while a node is being dragged. */
+  :global(html.is-dragging),
+  :global(html.is-dragging *) {
+    cursor: grabbing !important;
+    user-select: none;
+  }
+  .node-area[data-placed] {
+    visibility: visible;
+  }
+  /* --pulse (0%..100%) and --pulse-color are set by the graph script while a colour
+     wave passes through the icon. */
+  .node-area .ring {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid color-mix(in srgb, var(--pulse-color, var(--accent-graph)) var(--pulse, 0%), var(--line));
+    color: color-mix(in srgb, var(--pulse-color, var(--accent)) var(--pulse, 0%), var(--muted));
+    transition: none;
+  }
+  .node-area .ring :global(svg) {
     width: 1.125rem;
     height: 1.125rem;
   }
-  .links a :global(svg:last-child) {
-    width: 0.875rem;
-    height: 0.875rem;
-  }
-  .text-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    min-height: 44px;
-    font-weight: 500;
-    font-size: var(--text-sm);
-    text-decoration: none;
-  }
-  .text-link .label {
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.22em;
-    text-decoration-color: transparent;
-    transition: text-decoration-color var(--dur-fast) linear;
+  .node-area .label {
+    position: absolute;
+    top: calc(100% + var(--s-1));
+    left: 50%;
+    translate: -50% 0;
+    padding: 0 var(--s-2);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    white-space: nowrap;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out);
   }
   @media (hover: hover) {
-    .text-link:hover .label {
-      text-decoration-color: var(--ink);
+    /* Hover takes the current accent; once the portrait has broken and everything
+       is coloured, it stays gray so it still stands out. */
+    .node-area:hover .ring {
+      border-color: var(--accent-graph);
+      color: var(--accent);
     }
-  }
-
-  /* Portrait: in colour. Clicking it (easter egg) spins it and switches to gray mood. */
-  .portrait {
-    display: block;
-    width: min(100%, 18rem);
-    padding: 0;
-    border: 0;
-    border-radius: var(--radius);
-    background: none;
-    cursor: pointer;
-    perspective: 900px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  @media (min-width: 50rem) {
-    .portrait {
-      width: 100%;
+    :global(html[data-broken]) .node-area:hover .ring {
+      border-color: var(--ink-2);
+      color: var(--ink-2);
     }
-  }
-  .portrait img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 1.25rem;
-    transition:
-      filter 500ms var(--ease-out) 250ms,
-      border-radius 500ms var(--ease-out);
-  }
-  .portrait.spin img {
-    animation: spin 900ms cubic-bezier(0.65, 0, 0.35, 1);
-  }
-  @keyframes spin {
-    to {
-      transform: rotateY(360deg);
+    .node-area:hover .label {
+      opacity: 1;
     }
-  }
-  :global(:root[data-mood='gray']) .portrait img {
-    filter: grayscale(1) contrast(1.05);
-    border-radius: var(--radius);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .power {
+    .cursor {
       animation: none;
     }
-    .portrait img {
+    .ring {
       transition: none;
     }
   }

@@ -1,5 +1,6 @@
 ---
 // 1200x630 Open Graph card, screenshotted by scripts/generate-assets.mjs. noindex.
+// Same look as the site and the LinkedIn cover: graphite, lime accent, a network graph.
 import Base from '../../layouts/Base.astro';
 import { copy, type Lang } from '../../i18n/content';
 
@@ -9,22 +10,78 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 const t = copy[lang];
+
+// Static graph on the right side, seeded so the card is the same on every build.
+let seed = 7;
+const rnd = () => {
+  seed = (seed * 16807) % 2147483647;
+  return seed / 2147483647;
+};
+const nodes: { x: number; y: number; a: number }[] = [];
+for (let i = 0; i < 4000 && nodes.length < 70; i++) {
+  const x = 560 + rnd() * 680;
+  const y = rnd() * 660 - 15;
+  if (x < 920 && y > 430) continue; // keep the role and tags clear
+  if (nodes.some((n) => Math.hypot(n.x - x, n.y - y) < 52)) continue;
+  nodes.push({ x, y, a: Math.min(1, Math.max(0.15, (x - 560) / 260)) });
+}
+const edges = new Set<string>();
+nodes.forEach((n, i) =>
+  nodes
+    .map((m, j) => [j, Math.hypot(m.x - n.x, m.y - n.y)] as const)
+    .filter(([j, d]) => j !== i && d < 130)
+    .sort((a, b) => a[1] - b[1])
+    .slice(0, 3)
+    .forEach(([j]) => edges.add(i < j ? `${i}-${j}` : `${j}-${i}`)),
+);
+const lines = [...edges].map((e) => e.split('-').map(Number) as [number, number]);
+// Accent route: walk left from the rightmost node in the middle band.
+const route: number[] = [];
+let cur = nodes.reduce<number>((best, n, i) => (n.y > 200 && n.y < 380 && n.x < 1120 && n.x > nodes[best].x ? i : best), 0);
+for (let s = 0; s < 6 && cur >= 0; s++) {
+  route.push(cur);
+  const next = lines
+    .filter(([a, b]) => a === cur || b === cur)
+    .map(([a, b]) => (a === cur ? b : a))
+    .filter((j) => !route.includes(j) && nodes[j].x < nodes[cur].x && nodes[j].x > 760 && nodes[j].y > 120 && nodes[j].y < 470)
+    .sort((a, b) => nodes[b].x - nodes[a].x)[0];
+  cur = next ?? -1;
+}
 ---
 
 <Base lang={lang} title="OG" noindex>
   <div class="card">
-    <p class="mono status"><span class="power"></span>{t.role} · {t.country}</p>
+    <svg class="net" viewBox="0 0 1200 630" aria-hidden="true">
+      {
+        lines.map(([a, b]) => (
+          <line
+            x1={nodes[a].x}
+            y1={nodes[a].y}
+            x2={nodes[b].x}
+            y2={nodes[b].y}
+            stroke-opacity={0.34 * Math.min(nodes[a].a, nodes[b].a)}
+          />
+        ))
+      }
+      {nodes.map((n) => <circle cx={n.x} cy={n.y} r="2.4" fill-opacity={n.a} />)}
+      <polyline class="route" points={route.map((i) => `${nodes[i].x},${nodes[i].y}`).join(' ')} />
+      {route.map((i) => <circle class="hot" cx={nodes[i].x} cy={nodes[i].y} r="6" />)}
+    </svg>
+    <div class="code mono">
+      <div><span class="k">const</span> career <span class="p">=</span> <span class="k">await</span> <b>build</b><span class="p">(</span>systems<span class="p">)</span></div>
+      <div class="indent"><span class="p">.</span><b>then</b><span class="p">(</span>scale<span class="p">)</span></div>
+      <div class="indent"><span class="p">.</span><b>catch</b><span class="p">(</span>learn<span class="p">);</span><span class="cursor"></span></div>
+    </div>
     <p class="name">Danilo<br /><span class="surname">Sambugaro</span></p>
-    <p class="lead">{t.meta.description}</p>
-    <p class="mono url">dsambugaro.github.io</p>
+    <p class="role mono">{t.role}</p>
+    <p class="tags mono">{t.tags.join('  /  ')}</p>
   </div>
 </Base>
 
 <style is:global>
   html,
   body {
-    background: #fff3dd;
-    color: #191919;
+    background: #1c1f23;
   }
 </style>
 <style>
@@ -33,44 +90,84 @@ const t = copy[lang];
     width: 1200px;
     height: 630px;
     padding: 72px 80px;
-    background: #fff3dd;
-    border-bottom: 12px solid #2b59c3;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 90% at 78% 40%, #272b31, #1c1f23 70%);
+    color: #e6e8eb;
   }
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 22px;
-    color: #44372b;
+  .net {
+    position: absolute;
+    inset: 0;
   }
-  .power {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #e4572e;
+  .net line {
+    stroke: #969da6;
+  }
+  .net circle {
+    fill: #7d848d;
+  }
+  .net .route {
+    fill: none;
+    stroke: #b5e853;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+  .net .hot {
+    fill: #1c1f23;
+    stroke: #b5e853;
+    stroke-width: 2.5;
+    fill-opacity: 1;
+  }
+  .code {
+    position: relative;
+    font-size: 24px;
+    line-height: 1.6;
+    white-space: pre;
+    color: #b4b9c0;
+  }
+  .code .indent {
+    padding-left: 2ch;
+  }
+  .code .k {
+    color: #b5e853;
+  }
+  .code b {
+    color: #e6e8eb;
+    font-weight: 600;
+  }
+  .code .p {
+    color: #7d848d;
+  }
+  .cursor {
+    display: inline-block;
+    width: 14px;
+    height: 28px;
+    margin-left: 4px;
+    vertical-align: -6px;
+    background: #b5e853;
   }
   .name {
-    margin-top: 28px;
-    font-size: 128px;
+    position: relative;
+    margin-top: 48px;
+    font-size: 96px;
     font-weight: 500;
-    line-height: 0.92;
+    line-height: 0.95;
     letter-spacing: -0.04em;
   }
   .surname {
-    color: #c2410c;
+    color: #b4b9c0;
   }
-  .lead {
-    margin-top: 36px;
-    max-width: 46ch;
-    font-size: 28px;
-    line-height: 1.35;
-    color: #44372b;
-  }
-  .url {
-    position: absolute;
-    right: 80px;
-    top: 80px;
+  .role {
+    position: relative;
+    margin-top: 32px;
     font-size: 20px;
-    color: #6b5743;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b5e853;
+  }
+  .tags {
+    position: relative;
+    margin-top: 12px;
+    font-size: 20px;
+    white-space: pre;
+    color: #8a9099;
   }
 </style>

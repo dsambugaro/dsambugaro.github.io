@@ -1,21 +1,30 @@
-/* Default: warm, colourful palette. Clicking the portrait (easter egg) switches
-   to "gray" mood: the original paper-and-ink Braun palette, photo in grayscale. */
+/* Graphite gray with one accent colour (lime by default). Light and dark themes.
+   Clicking the portrait (easter egg) cycles the accent: lime, cyan, magenta.
+   --accent is for text and UI; --accent-graph is the brighter tone used in the graph. */
 
 :root {
   color-scheme: light;
 
   /* Colour, light */
-  --bg: #fff3dd;
-  --surface: #ffe6bd;
-  --ink: #1c1917;
-  --ink-2: #44372b;
-  --muted: #6b5743;
-  --line: #efc98a;
-  --accent: #e4572e;
-  --btn-bg: #2b59c3;
+  --bg: #eceef0;
+  --bg-2: #f6f7f8;
+  --surface: #ffffff;
+  --ink: #1c1f23;
+  --ink-2: #3d434a;
+  --muted: #5f666e;
+  --line: #c4c9cf;
+  --graph-line: 60, 66, 74; /* rgb triplet, the canvas sets the alpha */
+  --graph-node: 74, 80, 88;
+  --accent: #3f6212;
+  --accent-graph: #65a30d;
   --btn-fg: #ffffff;
-  --btn-hover: #234aa3;
-  --name-2: #c2410c;
+  /* The three accents side by side, for the graph (tone) and for text (text-). */
+  --tone-lime: #65a30d;
+  --tone-cyan: #0891b2;
+  --tone-magenta: #c026d3;
+  --text-lime: #3f6212;
+  --text-cyan: #0e6f7c;
+  --text-magenta: #9d1f93;
 
   /* Type */
   --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
@@ -24,8 +33,6 @@
   --text-sm: 0.9375rem;
   --text-base: 1.0625rem;
   --text-lg: 1.25rem;
-  --text-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
-  --text-display: clamp(2.75rem, 1.4rem + 5.6vw, 5.75rem);
 
   /* Space: 4px sub-grid */
   --s-1: 0.25rem;
@@ -37,93 +44,85 @@
   --s-12: 3rem;
   --s-16: 4rem;
   --s-24: 6rem;
-  --s-32: 8rem;
-  --gutter: clamp(1rem, 4vw, 3rem);
+  --gutter: clamp(1rem, 4vw, 4.5rem);
 
   /* Shape */
   --radius: 2px;
-  --hairline: 1px solid var(--line);
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 120ms;
 }
 
+:root[data-accent='cyan'] {
+  --accent: #0e6f7c;
+  --accent-graph: #0891b2;
+}
+:root[data-accent='magenta'] {
+  --accent: #9d1f93;
+  --accent-graph: #c026d3;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: #13263a;
-    --surface: #1b3350;
-    --ink: #fdf6ea;
-    --ink-2: #e3d8c6;
-    --muted: #b9ab95;
-    --line: #2f4a6b;
-    --accent: #ff9f5a;
-    --btn-bg: #f5c518;
-    --btn-fg: #1c1917;
-    --btn-hover: #ffd84d;
-    --name-2: #ffb27a;
+    --bg: #1c1f23;
+    --bg-2: #272b31;
+    --surface: #2a2e34;
+    --ink: #e6e8eb;
+    --ink-2: #b4b9c0;
+    --muted: #8a9099;
+    --line: #4a5058;
+    --graph-line: 150, 157, 166;
+    --graph-node: 125, 132, 141;
+    --accent: #b5e853;
+    --accent-graph: #b5e853;
+    --btn-fg: #1c1f23;
+    --tone-lime: #b5e853;
+    --tone-cyan: #3fd5e8;
+    --tone-magenta: #e35bd8;
+    --text-lime: #b5e853;
+    --text-cyan: #3fd5e8;
+    --text-magenta: #e86ade;
+  }
+  :root[data-accent='cyan']:not([data-theme='light']) {
+    --accent: #3fd5e8;
+    --accent-graph: #3fd5e8;
+  }
+  :root[data-accent='magenta']:not([data-theme='light']) {
+    --accent: #e86ade;
+    --accent-graph: #e35bd8;
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #13263a;
-  --surface: #1b3350;
-  --ink: #fdf6ea;
-  --ink-2: #e3d8c6;
-  --muted: #b9ab95;
-  --line: #2f4a6b;
-  --accent: #ff9f5a;
-  --btn-bg: #f5c518;
-  --btn-fg: #1c1917;
-  --btn-hover: #ffd84d;
-  --name-2: #ffb27a;
+  --bg: #1c1f23;
+  --bg-2: #272b31;
+  --surface: #2a2e34;
+  --ink: #e6e8eb;
+  --ink-2: #b4b9c0;
+  --muted: #8a9099;
+  --line: #4a5058;
+  --graph-line: 150, 157, 166;
+  --graph-node: 125, 132, 141;
+  --accent: #b5e853;
+  --accent-graph: #b5e853;
+  --btn-fg: #1c1f23;
+  --tone-lime: #b5e853;
+  --tone-cyan: #3fd5e8;
+  --tone-magenta: #e35bd8;
+  --text-lime: #b5e853;
+  --text-cyan: #3fd5e8;
+  --text-magenta: #e86ade;
 }
-
-/* Gray mood (easter egg). */
-:root[data-mood='gray'] {
-  --bg: #f5f4f0;
-  --surface: #ebe9e3;
-  --ink: #191919;
-  --ink-2: #3f3e3b;
-  --muted: #5c5b58;
-  --line: #d3d0c8;
-  --accent: #8a8885;
-  --btn-bg: #191919;
-  --btn-fg: #f5f4f0;
-  --btn-hover: #383735;
-  --name-2: #191919;
+:root[data-theme='dark'][data-accent='cyan'] {
+  --accent: #3fd5e8;
+  --accent-graph: #3fd5e8;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root[data-mood='gray']:not([data-theme='light']) {
-    --bg: #161615;
-    --surface: #201f1e;
-    --ink: #edebe6;
-    --ink-2: #cfcdc7;
-    --muted: #a3a19b;
-    --line: #363532;
-    --accent: #7d7b77;
-    --btn-bg: #edebe6;
-    --btn-fg: #161615;
-    --btn-hover: #d6d4ce;
-    --name-2: #edebe6;
-  }
-}
-
-:root[data-mood='gray'][data-theme='dark'] {
-  --bg: #161615;
-  --surface: #201f1e;
-  --ink: #edebe6;
-  --ink-2: #cfcdc7;
-  --muted: #a3a19b;
-  --line: #363532;
-  --accent: #7d7b77;
-  --btn-bg: #edebe6;
-  --btn-fg: #161615;
-  --btn-hover: #d6d4ce;
-  --name-2: #edebe6;
+:root[data-theme='dark'][data-accent='magenta'] {
+  --accent: #e86ade;
+  --accent-graph: #e35bd8;
 }
 
 *,
@@ -148,7 +147,7 @@ html {
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--bg);
+  background: radial-gradient(ellipse 90% 80% at 75% 35%, var(--bg-2), var(--bg) 70%) fixed var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -168,16 +167,6 @@ body {
   body {
     transition: none;
   }
-}
-
-.confetti,
-.rain {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 50;
 }
 
 h1,
@@ -260,61 +249,4 @@ a {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
-}
-
-.wrap {
-  width: 100%;
-  max-width: 74rem;
-  margin-inline: auto;
-  padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
-}
-
-/* Buttons: plain labels, sharp corners, no shadow. */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
-  min-height: 44px;
-  padding: var(--s-3) var(--s-4);
-  border: 1px solid var(--ink);
-  border-radius: var(--radius);
-  font: 500 var(--text-sm) / 1.2 var(--font-sans);
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
-  transition:
-    background-color var(--dur-fast) linear,
-    color var(--dur-fast) linear,
-    transform 80ms linear;
-}
-
-.btn svg {
-  flex: none;
-  width: 1rem;
-  height: 1rem;
-}
-
-.btn-primary {
-  background: var(--btn-bg, var(--ink));
-  border-color: var(--btn-bg, var(--ink));
-  color: var(--btn-fg, var(--bg));
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--ink);
-}
-
-@media (hover: hover) {
-  .btn-primary:hover {
-    background: var(--btn-hover);
-    border-color: var(--btn-hover);
-  }
-  .btn-secondary:hover {
-    background: var(--surface);
-  }
-}
-
-.btn:active {
-  transform: translateY(1px);
 }

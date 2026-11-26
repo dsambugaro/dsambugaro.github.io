@@ -1,8 +1,7 @@
 // Renders static assets from the built site with headless Chromium:
-//   public/og-*.png and favicon PNGs.
+//   public/og-*.png, and favicon PNGs made from the portrait.
 // Run with `npm run assets` (builds first). Outputs are committed, so CI never runs this.
 import { spawn } from 'node:child_process';
-import { readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
 
@@ -38,13 +37,20 @@ try {
   server.kill();
 }
 
-const svg = await readFile('public/favicon.svg');
-for (const [size, name] of [
-  [32, 'favicon-32.png'],
-  [180, 'apple-touch-icon.png'],
-  [192, 'icon-192.png'],
-  [512, 'icon-512.png'],
+// Icons from the portrait: round for the favicon and the manifest, square for
+// apple-touch-icon (iOS rounds the corners itself).
+const avatar = 'src/assets/avatar.jpg';
+const circle = (size) =>
+  Buffer.from(`<svg width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}"/></svg>`);
+for (const [size, name, round] of [
+  [32, 'favicon-32.png', true],
+  [48, 'favicon-48.png', true],
+  [180, 'apple-touch-icon.png', false],
+  [192, 'icon-192.png', true],
+  [512, 'icon-512.png', true],
 ]) {
-  await sharp(svg, { density: 384 }).resize(size, size).png().toFile(`public/${name}`);
+  let img = sharp(avatar).resize(size, size, { fit: 'cover' });
+  if (round) img = sharp(await img.png().toBuffer()).composite([{ input: circle(size), blend: 'dest-in' }]);
+  await img.png().toFile(`public/${name}`);
   console.log(`wrote public/${name}`);
 }

@@ -18,7 +18,7 @@ export const person = {
     'Databases',
     'AI engineering',
     'Agentic software development',
-    'Spec engineering',
+    'Spec-driven development',
     'Harness engineering',
   ],
 };
@@ -31,10 +31,14 @@ export type Copy = {
   theme: { toDark: string; toLight: string };
   role: string;
   country: string;
-  intro: string;
+  // Paragraphs. The first one holds the {years} placeholder.
+  intro: string[];
+  tags: string[];
+  // Small icon nodes in the graph, one per area of work.
+  areas: Record<'database' | 'server' | 'ai' | 'events' | 'cluster' | 'chip' | 'api' | 'cloud', string>;
   linksLabel: string;
   newTab: string;
-  mood: string;
+  portrait: string;
 };
 
 const en: Copy = {
@@ -55,7 +59,7 @@ const en: Copy = {
       'AI engineering',
       'agentic development',
       'AI coding agents',
-      'spec engineering',
+      'spec-driven development',
       'harness engineering',
       'Brazil',
     ],
@@ -64,11 +68,24 @@ const en: Copy = {
   theme: { toDark: 'Switch to dark theme', toLight: 'Switch to light theme' },
   role: 'Senior Software Engineer',
   country: 'Brazil',
-  intro:
-    'I’m a backend developer who has been shipping services and APIs for more than {years} years. I take a product need, shape the backend behind it and keep it running in production, working alongside AI agents with clear specs and checks at every step.',
+  intro: [
+    'I build backend systems that have to keep working as they grow. For more than {years} years I’ve worked on distributed services, event-driven flows, APIs and services where performance matters.',
+    'I like problems without an obvious answer: I start from the constraints, weigh the trade-offs, design the system and see it through to reliable software in production. I also build with AI coding agents, using spec-driven development and harness engineering to guide them with clear specs, the right context and automated checks.',
+  ],
+  tags: ['distributed systems', 'event-driven', 'AI agents', 'maker'],
+  areas: {
+    database: 'databases',
+    server: 'backend',
+    ai: 'AI agents',
+    events: 'event-driven',
+    cluster: 'distributed systems',
+    chip: 'maker',
+    api: 'APIs',
+    cloud: 'cloud',
+  },
   linksLabel: 'Find me online',
   newTab: 'opens in a new tab',
-  mood: 'Gray mode',
+  portrait: 'Change the accent colour',
 };
 
 const pt: Copy = {
@@ -89,7 +106,7 @@ const pt: Copy = {
       'engenharia de IA',
       'desenvolvimento com agentes de IA',
       'agentes de IA',
-      'spec engineering',
+      'spec-driven development',
       'harness engineering',
       'Brasil',
     ],
@@ -98,11 +115,24 @@ const pt: Copy = {
   theme: { toDark: 'Mudar para o tema escuro', toLight: 'Mudar para o tema claro' },
   role: 'Senior Software Engineer',
   country: 'Brasil',
-  intro:
-    'Sou desenvolvedor backend e coloco serviços e APIs em produção há mais de {years} anos. Pego uma necessidade de produto, desenho o backend por trás dela e mantenho tudo rodando, trabalhando junto com agentes de IA, com specs claras e verificação em cada etapa.',
+  intro: [
+    'Construo sistemas backend que precisam continuar funcionando enquanto crescem. Há mais de {years} anos trabalho com serviços distribuídos, fluxos orientados a eventos, APIs e serviços em que performance importa.',
+    'Gosto de problemas sem resposta óbvia: começo pelas restrições, avalio os trade-offs, desenho o sistema e acompanho até ele virar software confiável em produção. Também desenvolvo com agentes de IA, usando spec-driven development e harness engineering para guiá-los com specs claras, o contexto certo e verificações automáticas.',
+  ],
+  tags: ['sistemas distribuídos', 'event-driven', 'agentes de IA', 'maker'],
+  areas: {
+    database: 'bancos de dados',
+    server: 'backend',
+    ai: 'agentes de IA',
+    events: 'event-driven',
+    cluster: 'sistemas distribuídos',
+    chip: 'maker',
+    api: 'APIs',
+    cloud: 'cloud',
+  },
   linksLabel: 'Onde me encontrar',
   newTab: 'abre em nova aba',
-  mood: 'Modo cinza',
+  portrait: 'Trocar a cor de destaque',
 };
 
 export const copy: Record<Lang, Copy> = { en, pt };
