@@ -46,6 +46,7 @@ interface Options {
   // [portrait, ...others]; each has a `.ring` child. Elements with the class
   // `node-link` get an accent route from the portrait; the rest are plain nodes.
   specials: HTMLElement[];
+  onDragEnd?: (el: HTMLElement) => void; // after a drag (not a click) is released
 }
 
 const POINTER_RADIUS = 150;
@@ -100,7 +101,7 @@ const distToRect = (x: number, y: number, r: Rect) => {
   return Math.hypot(dx, dy);
 };
 
-export function startGraph({ canvas, root, text, specials }: Options) {
+export function startGraph({ canvas, root, text, specials, onDragEnd }: Options) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return { pulse(_tone: string) {}, freeze() {} };
 
@@ -706,10 +707,13 @@ export function startGraph({ canvas, root, text, specials }: Options) {
     }
   });
   const release = (e: PointerEvent) => {
-    for (const g of drags.values()) {
+    for (const [el, g] of drags) {
       if (!g.held || g.id !== e.pointerId) continue;
       g.held = false;
-      if (g.moved) swallowClick = true; // a drag is not a click
+      if (g.moved) {
+        swallowClick = true; // a drag is not a click
+        onDragEnd?.(el);
+      }
       document.documentElement.classList.remove('is-dragging');
       kick();
     }

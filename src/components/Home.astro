@@ -171,7 +171,37 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
   const specials = [portrait, ...document.querySelectorAll<HTMLElement>('.node-link, .node-area')].filter(
     (el): el is HTMLElement => !!el,
   );
-  const graph = page && canvas && text ? startGraph({ canvas, root: page, text, specials }) : null;
+  // Mouse wheel over the portrait zooms it between ZOOM_MIN and ZOOM_MAX times its
+  // size. Dragging it and letting go springs it back to its normal size.
+  const ZOOM_MIN = 0.5;
+  const ZOOM_MAX = 2;
+  let zoom = 1;
+  const setZoom = (value: number, release = false) => {
+    if (!portrait) return;
+    zoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, value));
+    portrait.classList.toggle('unzoom', release);
+    portrait.style.setProperty('--zoom', zoom.toFixed(3));
+  };
+  portrait?.addEventListener(
+    'wheel',
+    (e) => {
+      e.preventDefault(); // zoom instead of scrolling the page
+      const lines = e.deltaMode === 1 ? 33 : e.deltaMode === 2 ? 400 : 1;
+      setZoom(zoom * Math.exp(-e.deltaY * lines * 0.0015));
+    },
+    { passive: false },
+  );
+
+  const graph =
+    page && canvas && text
+      ? startGraph({
+          canvas,
+          root: page,
+          text,
+          specials,
+          onDragEnd: (el) => el === portrait && zoom !== 1 && setZoom(1, true),
+        })
+      : null;
 
   // Easter egg: clicking the portrait makes it pulse, sends a colour wave through the
   // graph and switches the accent colour: lime, cyan, magenta. The links take the new
@@ -348,7 +378,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
   .stage {
     order: -1;
     height: 21rem;
-    --avatar: clamp(8.5rem, 34vw, 10rem);
+    --avatar: clamp(9rem, 37vw, 11rem);
   }
   @media (min-width: 56rem) {
     .page {
@@ -361,7 +391,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
     .stage {
       order: 0;
       height: clamp(26rem, 72svh, 44rem);
-      --avatar: clamp(10rem, 15vw, 13.5rem);
+      --avatar: clamp(11.5rem, 17vw, 15.5rem);
     }
   }
 
@@ -481,6 +511,11 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
   .node-avatar .ring {
     width: var(--avatar);
     height: var(--avatar);
+    scale: var(--zoom, 1); /* mouse wheel zoom, set by the script */
+    transition:
+      scale 140ms var(--ease-out),
+      border-color var(--dur-fast) linear,
+      box-shadow 200ms var(--ease-out);
     padding: 5px;
     border: 2px solid var(--accent-graph);
     box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-graph) 12%, transparent);
@@ -490,6 +525,13 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+  }
+  /* Back to the normal size after a drag, with a small elastic overshoot. */
+  .node-avatar.unzoom .ring {
+    transition:
+      scale 600ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      border-color var(--dur-fast) linear,
+      box-shadow 200ms var(--ease-out);
   }
   /* Easter egg: a click makes the portrait pulse and sends a ring outwards. */
   .node-avatar .ring {
@@ -695,7 +737,9 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
     .cursor {
       animation: none;
     }
-    .ring {
+    .ring,
+    .node-avatar .ring,
+    .node-avatar.unzoom .ring {
       transition: none;
     }
   }
