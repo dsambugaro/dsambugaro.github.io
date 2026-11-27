@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://dsambugaro.github.io',
+  site: 'https://dsambugaro.com',
   trailingSlash: 'ignore',
   i18n: {
     defaultLocale: 'en',

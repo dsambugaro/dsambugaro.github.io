@@ -8,7 +8,7 @@ export const person = {
   fullName: 'Danilo Sambugaro de Carlo',
   github: 'https://github.com/dsambugaro',
   linkedin: 'https://www.linkedin.com/in/dsambugaro/',
-  site: 'https://dsambugaro.github.io',
+  site: 'https://dsambugaro.com',
   // Used in the JSON-LD Person (knowsAbout). Topics, not tools.
   knowsAbout: [
     'Software engineering',
