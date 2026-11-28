@@ -17,6 +17,7 @@ const [introBefore, introAfter] = first.split('{years}');
 const links = [
   { name: 'LinkedIn', handle: '/in/dsambugaro', href: person.linkedin, icon: 'linkedin' as const, pos: 'li' },
   { name: 'GitHub', handle: '@dsambugaro', href: person.github, icon: 'github' as const, pos: 'gh' },
+  { ...t.cv, icon: 'download' as const, pos: 'cv', rel: 'noopener' },
 ];
 const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
 ---
@@ -108,7 +109,7 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
     <nav aria-label={t.linksLabel}>
       {
         links.map((l) => (
-          <a class={`node node-link node-${l.pos}`} data-tone="lime" href={l.href} target="_blank" rel="me noopener noreferrer">
+          <a class={`node node-link node-${l.pos}`} data-tone="lime" href={l.href} target="_blank" rel={l.rel ?? 'me noopener noreferrer'}>
             <span class="ring">
               <Icon name={l.icon} />
             </span>
@@ -638,6 +639,10 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
     --x: 60%;
     --y: 72%;
   }
+  .node-cv {
+    --x: 85%;
+    --y: 60%;
+  }
   @media (min-width: 56rem) {
     .node-avatar {
       --x: 46%;
@@ -650,6 +655,10 @@ const areas = Object.entries(t.areas) as [keyof typeof t.areas, string][];
     .node-gh {
       --x: 86%;
       --y: 82%;
+    }
+    .node-cv {
+      --x: 93%;
+      --y: 49%;
     }
   }
   @media (hover: hover) {

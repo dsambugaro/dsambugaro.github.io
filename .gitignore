@@ -12,3 +12,7 @@ npm-debug.log*
 
 # OS
 .DS_Store
+
+# private résumé data (phone) and the PDFs that carry it
+cv/private.json
+cv/out/

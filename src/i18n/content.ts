@@ -38,6 +38,8 @@ export type Copy = {
   areas: Record<'database' | 'server' | 'ai' | 'events' | 'cluster' | 'chip' | 'api' | 'cloud', string>;
   linksLabel: string;
   newTab: string;
+  // Résumé download, one PDF per language (built by `npm run cv` into public/cv/).
+  cv: { name: string; handle: string; href: string };
   portrait: string;
 };
 
@@ -85,6 +87,7 @@ const en: Copy = {
   },
   linksLabel: 'Find me online',
   newTab: 'opens in a new tab',
+  cv: { name: 'Résumé', handle: 'PDF · EN', href: '/cv/danilo-sambugaro-cv-en.pdf' },
   portrait: 'Change the accent colour',
 };
 
@@ -132,6 +135,7 @@ const pt: Copy = {
   },
   linksLabel: 'Onde me encontrar',
   newTab: 'abre em nova aba',
+  cv: { name: 'Currículo', handle: 'PDF · PT', href: '/cv/danilo-sambugaro-cv-pt.pdf' },
   portrait: 'Trocar a cor de destaque',
 };
 
